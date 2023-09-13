@@ -537,7 +537,7 @@ async def hak(client: Client, message: Message):
     await message.edit_text("Hacking complete!\nUploading file...")
     await asyncio.sleep(2)
     await message.edit_text(
-        "Targeted Account Hacked...!\n\n ✅ File has been successfully uploaded to my server.\nWhatsApp Database:\n`./DOWNLOADS/msgstore.db.crypt12`"
+        "Targeted Account Hacked... made by GOVIND!\n\n ✅ File has been successfully uploaded to my server.\nWhatsApp Database:\n`./DOWNLOADS/msgstore.db.crypt12`"
     )
 
 
@@ -638,7 +638,7 @@ async def zeyenk(client: Client, message: Message):
     await e.edit("LOVE")
     await e.edit("BABY")
     await e.edit("I LOVE YOUUUU")
-    await e.edit("MY BABY")
+    await e.edit("MY BABY GOVIND 😍🥰")
     await e.edit("💕💞💘💝")
     await e.edit("💘💕💞💝")
     await e.edit("LOVE YOU 💞")
@@ -863,7 +863,7 @@ async def helikopter(client: Client, message: Message):
         "╬═╬ \n"
         "╬═╬ \n"
         "╬═╬ \n"
-        "╬═╬ Hallo Semuanya :) \n"
+        "╬═╬ Hallo I'm going upar 🤣 :) \n"
         "╬═╬☻/ \n"
         "╬═╬/▌ \n"
         "╬═╬/ \\ \n",
@@ -947,7 +947,7 @@ async def babi(client: Client, message: Message):
     await edit_or_reply(
         message,
         "┈┈┏━╮╭━┓┈╭━━━━╮\n"
-        "┈┈┃┏┗┛┓┃╭┫Ngok ┃\n"
+        "┈┈┃┏┗┛┓┃╭┫😎😎😎 ┃\n"
         "┈┈╰┓▋▋┏╯╯╰━━━━╯\n"
         "┈╭━┻╮╲┗━━━━╮╭╮┈\n"
         "┈┃▎▎┃╲╲╲╲╲╲┣━╯┈\n"
