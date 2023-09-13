@@ -86,7 +86,7 @@ async def dmspam(spam: Client, e: Message):
                 text = f"Chal Chal baap Ko mat sikha"
                 await e.reply_text(text)
           elif int(id) in SUDO_USERS:
-                text = f"Abe Lawde that guy part of my devs."
+                text = f"Abe Lawde Mere owners ko gali dega aokat mein re 😎."
                 await e.reply_text(text)
           else:
               counts = int(text[0])
