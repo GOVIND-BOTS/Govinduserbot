@@ -20,7 +20,7 @@ async def hello(client: app, message):
             ],
             [
                 InlineKeyboardButton("✘ ꜱᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ", url="t.me/GOVIND_MP_USERBOT_SPPORT"),
-                "),
+                
             ],
             ]
     reply_markup = InlineKeyboardMarkup(buttons)
