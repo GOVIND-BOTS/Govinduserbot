@@ -44,7 +44,7 @@ async def get_group_call(
 )
 async def opengc(client: Client, message: Message):
     flags = " ".join(message.command[1:])
-    tex = await message.reply_text(message, "`Processing . . .`")
+    tex = await message.reply_text("`Processing . . .`")
     vctitle = get_arg(message)
     if flags == enums.ChatType.CHANNEL:
         chat_id = message.chat.title
