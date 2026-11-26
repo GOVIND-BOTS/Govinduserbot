@@ -68,7 +68,7 @@ async def tg_lock(
         )
     except ChatNotModified:
         return await message.edit_text(
-            f"To unlock this, you have to `{prefix}unlock msg` first."
+            f"To unlock this, you have to `.unlock msg` first."
         )
     except ChatAdminRequired:
         return await message.edit_text("`I don't have permission to do that.`")
