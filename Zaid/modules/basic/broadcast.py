@@ -34,7 +34,7 @@ async def gcast_cmd(client: Client, message: Message):
         if dialog.chat.type in (enums.ChatType.GROUP, enums.ChatType.SUPERGROUP):
             if message.reply_to_message:
                 msg = message.reply_to_message
-            elif get_arg:
+            elif get_arg(message):
                 msg = get_arg(message)
             chat = dialog.chat.id
             if chat not in NB:
@@ -81,7 +81,7 @@ async def gucast(client: Client, message: Message):
                 except Exception:
                     error += 1
                     await asyncio.sleep(0.3)
-    await text.edit_text(
+    await tex.edit_text(
         f"**Successfully Sent Message To** `{done}` **chat, Failed to Send Message To** `{error}` **chat**"
     )
 
