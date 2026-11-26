@@ -2,7 +2,7 @@ services:
   - type: web
     name: govind-userbot
     plan: free
-    runtime: python
+    env: python
     buildCommand: pip install --upgrade pip && pip install -r requirements.txt
     startCommand: bash start.sh
     repo: https://github.com/GOVIND-BOTS/Govinduserbot
