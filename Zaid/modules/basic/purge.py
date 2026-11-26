@@ -1,6 +1,6 @@
 import asyncio
 
-from pyrogram import Client, filters
+from pyrogram import Client, filters\nfrom pyrogram.errors import FloodWait
 from pyrogram.types import Message 
 
 from Zaid.modules.help import add_command_help
