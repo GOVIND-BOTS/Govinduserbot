@@ -1,93 +1,91 @@
 import asyncio
 
-from pyrogram import Client, filters\nfrom pyrogram.errors import FloodWait
-from pyrogram.types import Message 
+from pyrogram import Client, filters
+from pyrogram.errors import FloodWait
+from pyrogram.types import Message
 
 from Zaid.modules.help import add_command_help
 
 
 @Client.on_message(filters.command("del", ".") & filters.me)
 async def del_msg(client: Client, message: Message):
-    msg_src = message.reply_to_message
-    if msg_src:
-        if msg_src.from_user.id:
-            try:
-                await client.delete_messages(message.chat.id, msg_src.id)
-                await message.delete()
-            except BaseException:
-                pass
-    else:
+    if message.reply_to_message:
+        try:
+            await client.delete_messages(
+                message.chat.id,
+                message.reply_to_message.id,
+            )
+        except Exception:
+            pass
+    try:
         await message.delete()
-
+    except Exception:
+        pass
 
 
 @Client.on_message(filters.command("purge", ".") & filters.me)
 async def purge(client: Client, message: Message):
-    ex = await message.edit_text("`Starting To Purge Messages!`")
-    msg = message.reply_to_message
-    if msg:
-        itermsg = list(range(msg.id, message.id))
-    else:
-        await ex.edit("`Reply To Message To Purge!`")
-        return
-    count = 0
+    source = message.reply_to_message
+    if not source:
+        return await message.edit_text("Reply to a message to purge from that point.")
 
-    for i in itermsg:
+    status = await message.edit_text("Starting purge...")
+    deleted = 0
+    for message_id in range(source.id, message.id):
         try:
-            count = count + 1
             await client.delete_messages(
-                chat_id=message.chat.id, message_ids=i, revoke=True
+                chat_id=message.chat.id,
+                message_ids=message_id,
+                revoke=True,
             )
-        except FloodWait as e:
-            await asyncio.sleep(e.x)
-        except Exception as e:
-            await ex.edit(f"**ERROR:** `{e}`")
-            return
+            deleted += 1
+        except FloodWait as exc:
+            await asyncio.sleep(exc.value)
+        except Exception:
+            continue
 
-    done = await ex.edit(
-        f"**Fast Purge Completed!**\n**Successfully Delete** `{str(count)}` **Message.**"
-    )
-    await asyncio.sleep(2)
-    await done.delete()
-
+    try:
+        await status.edit_text("Purge completed. Deleted " + str(deleted) + " messages.")
+        await asyncio.sleep(2)
+        await status.delete()
+    except Exception:
+        pass
 
 
 @Client.on_message(filters.command("purgeme", ".") & filters.me)
 async def purgeme(client: Client, message: Message):
     if len(message.command) != 2:
-        return await message.delete()
-    n = message.text.split(None, 1)[1].strip()
-    if not n.isnumeric():
-        return await message.edit_text("Please enter a number")
-    n = int(n)
-    if n < 1:
-        return await message.edit_text("Enter the number of messages you want to delete!")
-    chat_id = message.chat.id
-    message_ids = [
-        m.id
-        async for m in client.search_messages(
-            chat_id,
-            from_user="me",
-            limit=n,
-        )
-    ]
+        return await message.edit_text("Usage: .purgeme COUNT")
+    try:
+        count = int(message.command[1])
+    except ValueError:
+        return await message.edit_text("Please enter a valid number.")
+    if count < 1:
+        return await message.edit_text("Count must be greater than zero.")
+
+    message_ids = []
+    async for item in client.get_chat_history(message.chat.id, limit=1000):
+        if item.from_user and item.from_user.is_self:
+            message_ids.append(item.id)
+            if len(message_ids) >= min(count, 1000):
+                break
+
     if not message_ids:
-        return await message.edit_text("Could not find message.")
-    to_delete = [message_ids[i : i + 99] for i in range(0, len(message_ids), 99)]
-    for hundred_messages_or_less in to_delete:
+        return await message.edit_text("No outgoing messages found.")
+
+    for offset in range(0, len(message_ids), 100):
         await client.delete_messages(
-            chat_id=chat_id,
-            message_ids=hundred_messages_or_less,
+            chat_id=message.chat.id,
+            message_ids=message_ids[offset:offset + 100],
             revoke=True,
         )
-    await message.delete()
 
 
 add_command_help(
     "purge",
     [
-        ["del", "to delete someone's message."],
-        ["purge", "reply to all messages from your replied."],
-        ["purgeme [count]", "to delete your messages only."],
+        ["del", "Delete the replied-to message."],
+        ["purge", "Delete messages from the replied-to message onward."],
+        ["purgeme [count]", "Delete your recent outgoing messages."],
     ],
 )
