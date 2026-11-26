@@ -1,21 +1,25 @@
 services:
   - type: web
+    name: govind-userbot
     plan: free
-    name: Zaid
-    env: python
-    buildCommand: pip install -U -r requirements.txt
-    startCommand: python3 server.py & python3 -m Zaid
-    repo: https://github.com/ITZ-ZAID/ZAID-USERBOT      
+    runtime: python
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: bash start.sh
+    repo: https://github.com/GOVIND-BOTS/Govinduserbot
     branch: master
     envVars:
-      - key: SUDO_USERS 
+      - key: API_ID
         sync: false
-      - key: BOT_TOKEN 
+      - key: API_HASH
         sync: false
-      - key: OWNER_ID 
+      - key: OWNER_ID
+        sync: false
+      - key: SUDO_USERS
+        sync: false
+      - key: BOT_TOKEN
+        sync: false
+      - key: MONGO_URL
         sync: false
       - key: STRING_SESSION1
         sync: false
-      - key: MONGO_URL
-        sync: false    
     autoDeploy: false
