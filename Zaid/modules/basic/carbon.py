@@ -1,20 +1,31 @@
 import asyncio
 from io import BytesIO
 
+import aiohttp
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from Zaid import aiosession
-
 from Zaid.helper.PyroHelpers import ReplyCheck
-
 from Zaid.modules.help import add_command_help
 
 
 async def make_carbon(code):
     url = "https://carbonara.vercel.app/api/cook"
-    async with aiosession.post(url, json={"code": code}) as resp:
-        image = BytesIO(await resp.read())
+    timeout = aiohttp.ClientTimeout(total=60)
+
+    async with aiohttp.ClientSession(timeout=timeout) as session:
+        async with session.post(url, json={"code": code}) as resp:
+            if resp.status != 200:
+                detail = (await resp.text())[:300]
+                raise RuntimeError(
+                    f"Carbon API returned HTTP {resp.status}: {detail}"
+                )
+
+            image_data = await resp.read()
+            if not image_data:
+                raise RuntimeError("Carbon API returned an empty image.")
+
+    image = BytesIO(image_data)
     image.name = "carbon.png"
     return image
 
@@ -23,29 +34,38 @@ async def make_carbon(code):
 async def carbon_func(client: Client, message: Message):
     text = (
         message.text.split(None, 1)[1]
-        if len(
-            message.command,
-        )
-        != 1
+        if message.text and len(message.command) > 1
         else None
     )
     if message.reply_to_message:
-        text = message.reply_to_message.text or message.reply_to_message.caption
+        text = (
+            message.reply_to_message.text
+            or message.reply_to_message.caption
+        )
+
     if not text:
         return await message.delete()
-    ex = await message.edit_text("`Preparing Carbon . . .`")
-    carbon = await make_carbon(text)
-    await ex.edit("`Uploading . . .`")
-    await asyncio.gather(
-        ex.delete(),
-        client.send_photo(
+
+    status = await message.edit_text("`Preparing Carbon . . .`")
+    carbon = None
+
+    try:
+        carbon = await make_carbon(text)
+        await status.edit_text("`Uploading . . .`")
+        await client.send_photo(
             message.chat.id,
             carbon,
             caption=f"**Carbonised by** {client.me.mention}",
             reply_to_message_id=ReplyCheck(message),
-        ),
-    )
-    carbon.close()
+        )
+    except Exception as exc:
+        await status.edit_text(f"**Carbon error:** `{str(exc)[:700]}`")
+        return
+    finally:
+        if carbon:
+            carbon.close()
+
+    await status.delete()
 
 
 add_command_help(
