@@ -5,6 +5,14 @@
     "repository": "https://github.com/GOVIND-BOTS/Govinduserbot",
   "stack": "container",
     "env": {
+        "API_ID": {
+            "description": "Telegram API ID from my.telegram.org",
+            "required": true
+        },
+        "API_HASH": {
+            "description": "Telegram API hash from my.telegram.org",
+            "required": true
+        },
         "STRING_SESSION1": {
             "description": "fill with the telethon session string from https://replit.com/@govind_string_robot",
             "required": true
