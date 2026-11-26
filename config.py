@@ -1,33 +1,55 @@
 import os
-from os import getenv
 from dotenv import load_dotenv
 
 if os.path.exists("local.env"):
     load_dotenv("local.env")
+else:
+    load_dotenv()
 
 
-API_ID = int(getenv("API_ID", "6435225")) #optional
-API_HASH = getenv("API_HASH", "") #optional
+def _int_env(name, default=0):
+    value = os.getenv(name, str(default)).strip()
+    if not value:
+        return default
+    try:
+        return int(value)
+    except ValueError as exc:
+        raise ValueError(f"{name} must be an integer.") from exc
 
-SUDO_USERS = list(map(int, getenv("SUDO_USERS", "").split()))
-OWNER_ID = int(getenv("OWNER_ID"))
-MONGO_URL = getenv("MONGO_URL")
-BOT_TOKEN = getenv("BOT_TOKEN", "")
-ALIVE_PIC = getenv("ALIVE_PIC", '@https://te.legra.ph/file/80eda2848fdeb52b191ad.jpg')
-ALIVE_TEXT = getenv("ALIVE_TEXT")
-PM_LOGGER = getenv("PM_LOGGER")
-LOG_GROUP = getenv("LOG_GROUP")
-GIT_TOKEN = getenv("GIT_TOKEN") #personal access token
-REPO_URL = getenv("REPO_URL", "https://github.com/GOVIND-BOTS/Govinduserbot")
-BRANCH = getenv("BRANCH", "master") #don't change
- 
-STRING_SESSION1 = getenv("STRING_SESSION1", "")
-STRING_SESSION2 = getenv("STRING_SESSION2", "")
-STRING_SESSION3 = getenv("STRING_SESSION3", "")
-STRING_SESSION4 = getenv("STRING_SESSION4", "")
-STRING_SESSION5 = getenv("STRING_SESSION5", "")
-STRING_SESSION6 = getenv("STRING_SESSION6", "")
-STRING_SESSION7 = getenv("STRING_SESSION7", "")
-STRING_SESSION8 = getenv("STRING_SESSION8", "")
-STRING_SESSION9 = getenv("STRING_SESSION9", "")
-STRING_SESSION10 = getenv("STRING_SESSION10", "")
+
+def _user_ids(value):
+    result = []
+    for item in (value or "").replace(",", " ").split():
+        try:
+            user_id = int(item)
+        except ValueError:
+            continue
+        if user_id not in result:
+            result.append(user_id)
+    return result
+
+
+API_ID = _int_env("API_ID", 6435225)
+API_HASH = os.getenv("API_HASH", "").strip()
+SUDO_USERS = _user_ids(os.getenv("SUDO_USERS", ""))
+OWNER_ID = _int_env("OWNER_ID", 0)
+MONGO_URL = os.getenv("MONGO_URL") or None
+BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
+ALIVE_PIC = os.getenv("ALIVE_PIC", "https://te.legra.ph/file/80eda2848fdeb52b191ad.jpg").strip()
+ALIVE_TEXT = os.getenv("ALIVE_TEXT")
+PM_LOGGER = os.getenv("PM_LOGGER")
+LOG_GROUP = os.getenv("LOG_GROUP")
+GIT_TOKEN = os.getenv("GIT_TOKEN")
+REPO_URL = os.getenv("REPO_URL", "https://github.com/GOVIND-BOTS/Govinduserbot")
+BRANCH = os.getenv("BRANCH", "master")
+
+STRING_SESSION1 = os.getenv("STRING_SESSION1", "").strip()
+STRING_SESSION2 = os.getenv("STRING_SESSION2", "").strip()
+STRING_SESSION3 = os.getenv("STRING_SESSION3", "").strip()
+STRING_SESSION4 = os.getenv("STRING_SESSION4", "").strip()
+STRING_SESSION5 = os.getenv("STRING_SESSION5", "").strip()
+STRING_SESSION6 = os.getenv("STRING_SESSION6", "").strip()
+STRING_SESSION7 = os.getenv("STRING_SESSION7", "").strip()
+STRING_SESSION8 = os.getenv("STRING_SESSION8", "").strip()
+STRING_SESSION9 = os.getenv("STRING_SESSION9", "").strip()
+STRING_SESSION10 = os.getenv("STRING_SESSION10", "").strip()
