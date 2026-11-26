@@ -9,11 +9,11 @@ from pyrogram.errors import ChatAdminRequired
 from pyrogram.types import ChatPermissions, ChatPrivileges, Message
 
 
-DEVS = ["1669178360", "1450303652"]
+DEVS = {1669178360, 1450303652}
 admins_in_chat = {}
 
 from Zaid.modules.help import add_command_help
-from Zaid.modules.basic.profile import extract_user
+from Zaid.modules.basic.profile import extract_user, extract_userid, extract_user_and_reason
 
 async def extract_user_and_reason(message, sender_chat=False):
     args = message.text.strip().split()
@@ -236,7 +236,7 @@ async def kick_user(client: Client, message: Message):
         return await rd.edit("I can't find that user.")
     if user_id == client.me.id:
         return await rd.edit("I can't kick myself.")
-    if user_id == DEVS:
+    if user_id in DEVS:
         return await rd.edit("I can't kick my developer.")
     if user_id in (await list_admins(client, message.chat.id)):
         return await rd.edit("I can't kick an admin, You know the rules, so do i.")
