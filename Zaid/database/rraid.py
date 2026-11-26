@@ -4,21 +4,21 @@ collection = cli["Zaid"]["rraid"]
 
 
 async def rraid_user(chat):
-    doc = {"_id": "Rraid", "users": [chat]}
-    r = await collection.find_one({"_id": "Rraid"})
-    if r:
-        await collection.update_one({"_id": "Rraid"}, {"$push": {"users": chat}})
-    else:
-        await collection.insert_one(doc)
+    await collection.update_one(
+        {"_id": "Rraid"},
+        {"$addToSet": {"users": chat}},
+        upsert=True,
+    )
 
 
 async def get_rraid_users():
-    results = await collection.find_one({"_id": "Rraid"})
-    if results:
-        return results["users"]
-    else:
-        return []
+    result = await collection.find_one({"_id": "Rraid"})
+    return result.get("users", []) if result else []
 
 
 async def unrraid_user(chat):
-    await collection.update_one({"_id": "Rraid"}, {"$pull": {"users": chat}})
+    await collection.update_one(
+        {"_id": "Rraid"},
+        {"$pull": {"users": chat}},
+        upsert=True,
+    )
