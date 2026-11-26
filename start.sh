@@ -1,1 +1,5 @@
-python3 server.py & python3 -m Zaid
+#!/usr/bin/env bash
+set -e
+
+python3 server.py &
+exec python3 -m Zaid
