@@ -1,103 +1,84 @@
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+<!-- ICC USERBOT | Official Repository -->
 
-<p align="center">GOVIND 𝐔𝐬𝐞𝐫𝐛𝐨𝐭 🔥 </p>
-
-- A First Telegram Userbot Project With Multi Clients Based On PyroGram
-
-<p align="center"><a href="https://t.me/GOVIN_USERBOT_UPDATe"><img src="https://te.legra.ph/file/80eda2848fdeb52b191ad.jpg" width="300"></a></p>
 <p align="center">
-    <a href="https://www.python.org/" alt="made-with-python"> <img src="https://img.shields.io/badge/Made%20with-Python-black.svg?style=flat-square&logo=python&logoColor=blue&color=red" /></a>
+  <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
+</p>
 
-## Repo Stats
+<h1 align="center">𝐈𝐂𝐂 𝐔𝐒𝐄𝐑𝐁𝐎𝐓</h1>
+<p align="center"><b>𝐘ᴏᴜʀ 𝐏ᴇʀsᴏɴᴀʟ 𝐓ᴇʟᴇɢʀᴀᴍ 𝐔sᴇʀʙᴏᴛ</b></p>
+<p align="center">
+  <a href="https://github.com/GOVIND-BOTS/Govinduserbot">
+    <img src="https://img.shields.io/badge/Repository-ICC%20USERBOT-blue?style=for-the-badge&logo=github" alt="ICC USERBOT Repository" />
+  </a>
+  <a href="https://www.python.org/">
+    <img src="https://img.shields.io/badge/Python-3.8%2B-yellow?style=for-the-badge&logo=python" alt="Python" />
+  </a>
+</p>
 
-![github card](https://github-readme-stats.vercel.app/api/pin/?username=ITZ-ZAID&repo=ZAID-USERBOT&theme=dark)
+<p align="center">
+  𝐀 𝐏ʏʀᴏɢʀᴀᴍ-ʙᴀsᴇᴅ 𝐓ᴇʟᴇɢʀᴀᴍ 𝐔sᴇʀʙᴏᴛ ᴡɪᴛʜ ᴍᴜʟᴛɪ-ᴄʟɪᴇɴᴛ sᴜᴘᴘᴏʀᴛ.
+</p>
 
+---
 
-## Requirements 
+## 𝐅ᴇᴀᴛᴜʀᴇs
 
-- PyroGram Session
-- Dummy account
-- Python 3.8+ or 3.7
-- [Mongo Db](https://youtu.be/mnvjt_a5JYA)
+- 𝐌ᴜʟᴛɪ-ᴄʟɪᴇɴᴛ sᴜᴘᴘᴏʀᴛ
+- 𝐌ᴏᴅᴜʟᴀʀ ᴘʟᴜɢɪɴ sʏsᴛᴇᴍ
+- 𝐆ʀᴏᴜᴘ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ᴛᴏᴏʟs
+- 𝐇ᴇʟᴘ ᴀɴᴅ ᴍᴏᴅᴜʟᴇ ɪɴғᴏʀᴍᴀᴛɪᴏɴ
+- 𝐂ʟᴏɴᴇ sᴇssɪᴏɴ sᴜᴘᴘᴏʀᴛ
 
-## String Session
+## 𝐑ᴇǫᴜɪʀᴇᴍᴇɴᴛs
 
-<p align="center"><a href="https://replit.com/@Itz-zaid/pyrogram"> <img src="https://img.shields.io/badge/String%20Session-black?style=for-the-badge&logo=replit" width="220" height="38.45"/></a></p>
+- 𝐏ʏᴛʜᴏɴ 3.8 ᴏʀ ɴᴇᴡᴇʀ
+- 𝐓ᴇʟᴇɢʀᴀᴍ 𝐀ᴘɪ ɪᴅ ᴀɴᴅ 𝐀ᴘɪ ʜᴀsʜ
+- 𝐁ᴏᴛ ᴛᴏᴋᴇɴ
+- 𝐎ᴡɴᴇʀ 𝐓ᴇʟᴇɢʀᴀᴍ 𝐔sᴇʀ 𝐈ᴅ
+- 𝐌ᴏɴɢᴏᴅʙ 𝐔ʀɪ (ɪғ ʀᴇǫᴜɪʀᴇᴅ ʙʏ ʏᴏᴜʀ ᴄᴏɴғɪɢᴜʀᴀᴛɪᴏɴ)
 
+## 𝐂ᴏɴғɪɢᴜʀᴀᴛɪᴏɴ
 
-## 𝐃𝐄𝐏𝐋𝐎𝐘𝐌𝐄𝐍𝐓𝐒
+1. Fork this repository.
+2. Add the required environment variables from `sample.env` to your hosting provider.
+3. Set your Telegram API credentials, bot token, owner ID, and session strings.
+4. Deploy the repository using your preferred supported hosting platform.
 
-ᴛᴏ ʙᴇ ꜱᴀꜰᴇ ꜰᴏʀᴋ ᴛʜɪꜱ ʀᴇᴘᴏ ᴀɴᴅ ᴛʜᴇɴ ᴘʀᴇꜱꜱ ᴅᴇᴘʟᴏʏ ʙᴜᴛᴛᴏɴ ꜰʀᴏᴍ ᴛʜᴇ ꜰᴏʀᴋᴇᴅ ʀᴇᴘᴏ 
+## 𝐃ᴇᴘʟᴏʏᴍᴇɴᴛ
 
-[ꜰᴏʀᴋ ᴅᴇᴘʟᴏʏ ɪꜱ ʜɪɢʜʟʏ ʀᴇᴄᴏᴍᴍᴇɴᴅᴇᴅ](https://te.legra.ph/file/80eda2848fdeb52b191ad.jpg)
+<p align="center">
+  <a href="https://github.com/GOVIND-BOTS/Govinduserbot/fork">
+    <img src="https://img.shields.io/badge/Fork-ICC%20USERBOT-black?style=for-the-badge&logo=github" alt="Fork ICC USERBOT" />
+  </a>
+</p>
 
-<p align="center"><a href="http://dashboard.heroku.com/new?template=https://github.com/GOVIND-BOTS/Govinduserbot"> <img src="https://img.shields.io/badge/Deploy%20On%20Heroku-pink?style=for-the-badge&logo=heroku" width="220" height="38.45"/></a></p>
+### 𝐋ᴏᴄᴀʟ 𝐒ᴇᴛᴜᴘ
 
-## Features 
-
-- **Spamming!**
-- **You Can deploy Upto 10 Clients At a Same Time**
-- **Almost 90+ Plugins There adding more Plugins Soon**
-- **Id Safety Specially For Fake accounts**
-
-
-## Deploy To Render 
-
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://new)
-
-## Hosting With Mogenius 
-
-I will suggest to host on mogenius if uh don't know what is this then 
-Checkout Tutorial!
-<p align="center"><a href="https://youtu.be/qXT1jl60okk"> <img src="https://img.shields.io/badge/ZaidUserBot%20Deploy-black?style=for-the-badge&logo=youtube" width="220" height="38.45"/></a></p>
-
-
-## VPS/Locally deploy!
-```console
-Zaid@Debian~ $ apt-get -y update
-Zaid@Debian~ $ apt-get -y install git gcc python3-pip -y
-Zaid@Debian~ $ git clone https://github.com/ITZ-ZAID/ZAID-USERBOT
-Zaid@Debian~ $ cd ZAID-USERBOT
-Zaid@Debian~ $ pip3 install -U -r requirements.txt
-Zaid@Debian~ $ cp sample.env .env
-Zaid@Debian~ $ nano .env
+```bash
+git clone https://github.com/GOVIND-BOTS/Govinduserbot
+cd Govinduserbot
+pip install -r requirements.txt
+cp sample.env .env
 ```
 
-<h3 align="center">
-   Edit <b>.env</b> with your own values and Run Bot
-</h3>
+Fill in your own values in `.env`, then start the application with the existing project entry point:
 
-```console
-Zaid@Debian~ $ screen
-Zaid@Debian~ $ python3 -m Zaid
+```bash
+python3 -m Zaid
 ```
 
-## Disclaimer 
+> The internal Python package is still named `Zaid` so the existing imports and startup configuration remain untouched. This is an internal runtime path, not the public project branding.
 
+## 𝐒ᴜᴘᴘᴏʀᴛ & 𝐔ᴘᴅᴀᴛᴇs
 
-```console
-      ⚠️ WARNING FOR YOU ⚠️
-       Your Telegram account may get banned.
-   I am not responsible for any improper use of this bot
-This bot is intended for the purpose of having fun with memes,
-      as well as efficiently managing groups.
-You ended up spamming groups, getting reported left and right,
-and you ended up in a Finale Battle with Telegram and at the end
-       Telegram Team deleted your account?
-  And after that, then you pointed your fingers at us
-        for getting your acoount deleted?
-    I will be rolling on the floor laughing at you.
-```
+- 𝐔ᴘᴅᴀᴛᴇs: [@GOVIND_USERBOT_UPDATE](https://t.me/GOVIND_USERBOT_UPDATE)
+- 𝐒ᴜᴘᴘᴏʀᴛ: [@GOVIND_MP_USERBOT_SPPORT](https://t.me/GOVIND_MP_USERBOT_SPPORT)
+- 𝐒ᴏᴜʀᴄᴇ 𝐑ᴇᴘᴏsɪᴛᴏʀʏ: [GOVIND-BOTS/Govinduserbot](https://github.com/GOVIND-BOTS/Govinduserbot)
 
-## Credits 💖
-- Zect Userbot
-- Man
-- pyrogram
-- xyz ⚡
+## 𝐃ɪsᴄʟᴀɪᴍᴇʀ
 
-## Support / Channel
+This project is provided for educational and personal-use purposes. Use Telegram features responsibly and follow Telegram's terms. You are responsible for the actions performed by your account.
 
-<p align="center">𝐒𝐮𝐩𝐩𝐨𝐫𝐭 / 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 ----> </p>
+## 𝐂ʀᴇᴅɪᴛs
 
-<p align="center"><a href="https://t.me/TheSupportChat"><img src="https://img.shields.io/badge/ᴛᴇʟᴇɢʀᴀᴍ-𝐒𝐮𝐩𝐩𝐨𝐫𝐭-black?&style=for-the-badge&logo=telegram" width="220" height="38.45"></a></p>
-<p align="center"><a href="https://t.me/TheUpdatesChannel"><img src="https://img.shields.io/badge/ᴛᴇʟᴇɢʀᴀᴍ-𝐔𝐩𝐝𝐚𝐭𝐞𝐬-black?&style=for-the-badge&logo=telegram" width="220" height="38.45"></a></p>
+Thanks to the open-source projects and contributors whose work helped make this project possible. Original third-party credits should be retained in the source files and their respective licenses.
