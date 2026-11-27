@@ -98,6 +98,14 @@ async def pmguard_wait_callback(client, callback_query):
     user_id = callback_query.from_user.id
     WAITING_USERS.add(user_id)
     await callback_query.answer("Your request has been noted.", show_alert=True)
+    if PM_LOGGER:
+        try:
+            await client.send_message(
+                PM_LOGGER,
+                f"𝐖ᴀɪᴛ ʀᴇǫᴜᴇsᴛ ғʀᴏᴍ <a href=\\"tg://user?id={user_id}\\">ᴜsᴇʀ</a> (<code>{user_id}</code>).",
+            )
+        except Exception:
+            pass
     await callback_query.message.reply_text(
         "𝐘ᴏᴜʀ ʀᴇǫᴜᴇsᴛ ʜᴀs ʙᴇᴇɴ ɴᴏᴛᴇᴅ.\n\n"
         "𝐏ʟᴇᴀsᴇ ᴡᴀɪᴛ ᴜɴᴛɪʟ ᴛʜᴇ ᴏᴡɴᴇʀ ᴄᴏᴍᴇs ᴏɴʟɪɴᴇ. "
@@ -140,6 +148,8 @@ async def reply_pm(client: Client, message: Message):
     warns += 1
     USERS_AND_WARNS[user_id] = warns
     caption = warning_text(warns, limit)
+    if pm_message != ICC.PMPERMIT_MESSAGE:
+        caption = f"{pm_message}\\n\\n{caption}"
     keyboard = pm_keyboard()
     if ALIVE_PIC:
         try:
