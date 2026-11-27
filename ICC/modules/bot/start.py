@@ -2,7 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from config import OWNER_ID, ALIVE_PIC
-from Zaid import app, API_ID, API_HASH, clients, ids
+from ICC import app, API_ID, API_HASH, clients, ids
 
 START_TEXT = (
     "✘ Heya, Master!\n\n"
@@ -41,7 +41,7 @@ async def clone(client, message):
         api_id=API_ID,
         api_hash=API_HASH,
         session_string=session_string,
-        plugins={"root": "Zaid/modules"},
+        plugins={"root": "ICC/modules"},
     )
     try:
         await user_client.start()
