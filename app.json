@@ -28,7 +28,7 @@
             "value": "6540170882 6409393130"
         },
         "OWNER_ID": {
-            "description": "Fill there your I'd go to @Zaid2_Robot pm and type /id",
+            "description": "Fill there your I'd go to @ICC2_Robot pm and type /id",
             "required": true,
             "value": "6540170882"
         },
