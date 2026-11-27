@@ -3,8 +3,8 @@ import asyncio
 from pyrogram import Client, enums, filters
 from pyrogram.types import Message
 
-from Zaid import SUDO_USER
-from Zaid.modules.help import add_command_help
+from ICC import SUDO_USER
+from ICC.modules.help import add_command_help
 from cache.data import GROUP, VERIFIED_USERS
 
 EXCLUDED_GROUPS = set(GROUP)
