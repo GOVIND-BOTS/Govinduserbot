@@ -1,6 +1,6 @@
-from Zaid.database import cli
+from ICC.database import cli
 
-collection = cli["Zaid"]["pmpermit"]
+collection = cli["ICC"]["pmpermit"]
 
 PMPERMIT_MESSAGE = (
     "**ᴡᴀʀɴɪɴɢ!⚠️ ᴘʟᴢ ʀᴇᴀᴅ ᴛʜɪꜱ ᴍᴇꜱꜱᴀɢᴇ ᴄᴀʀᴇꜰᴜʟʟʏ..\n\n**"
