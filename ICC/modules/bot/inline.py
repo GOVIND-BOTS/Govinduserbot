@@ -14,6 +14,7 @@ from pyrogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     InlineQueryResultArticle,
+    InlineQueryResultPhoto,
     InputTextMessageContent,
     Message,
 )
@@ -79,13 +80,17 @@ async def alive_function(message: Message, answers):
 async def help_function(answers):
     bttn = paginate_help(0, CMD_HELP, "helpme")
     answers.append(
-        InlineQueryResultArticle(
-            title="Help Article!",
-            description="Check Command List & Help",
+        InlineQueryResultPhoto(
+            photo_url="https://telegra.ph/file/cc0890d0876bc18c19e05.jpg",
             thumb_url="https://telegra.ph/file/cc0890d0876bc18c19e05.jpg",
-            input_message_content=InputTextMessageContent(
-                Data.text_help_menu.format(len(CMD_HELP))
+            title="ICC Help Menu",
+            description="Choose a module to view its commands",
+            caption=(
+                "<b>ICC USERBOT HELP MENU</b>\\n"
+                "<i>Select any module button below to see its commands.</i>\\n\\n"
+                f"<b>Total Modules:</b> <code>{len(CMD_HELP)}</code>"
             ),
+            parse_mode=ParseMode.HTML,
             reply_markup=InlineKeyboardMarkup(bttn),
         )
     )
