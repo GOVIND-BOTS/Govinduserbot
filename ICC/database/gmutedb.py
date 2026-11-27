@@ -1,4 +1,4 @@
-from Zaid.database import cli
+from ICC.database import cli
 
 gmuteh = cli["GMUTE"]
 
