@@ -102,7 +102,7 @@ async def pmguard_wait_callback(client, callback_query):
         try:
             await client.send_message(
                 PM_LOGGER,
-                f"𝐖ᴀɪᴛ ʀᴇǫᴜᴇsᴛ ғʀᴏᴍ <a href=\\"tg://user?id={user_id}\\">ᴜsᴇʀ</a> (<code>{user_id}</code>).",
+                f"𝐖ᴀɪᴛ ʀᴇǫᴜᴇsᴛ ғʀᴏᴍ ᴜsᴇʀ ɪᴅ: {user_id}.",
             )
         except Exception:
             pass
@@ -149,7 +149,7 @@ async def reply_pm(client: Client, message: Message):
     USERS_AND_WARNS[user_id] = warns
     caption = warning_text(warns, limit)
     if pm_message != ICC.PMPERMIT_MESSAGE:
-        caption = f"{pm_message}\\n\\n{caption}"
+        caption = f"{pm_message}\n\n{caption}"
     keyboard = pm_keyboard()
     if ALIVE_PIC:
         try:
