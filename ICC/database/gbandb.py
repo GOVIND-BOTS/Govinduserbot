@@ -1,6 +1,6 @@
 from typing import Dict, List, Union
 
-from Zaid.database import dbb as db
+from ICC.database import dbb as db
 
 gbansdb = db.gban
 
