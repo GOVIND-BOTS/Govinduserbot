@@ -15,18 +15,18 @@ async def _callbacks(_, callback_query: CallbackQuery):
     bot_me = await app.get_me()
     if query == "helper":
         buttons = paginate_help(0, CMD_HELP, "helpme")
-        await app.edit_inline_text(
+        await app.edit_inline_caption(
             callback_query.inline_message_id,
             Data.text_help_menu,
             reply_markup=InlineKeyboardMarkup(buttons),
         )
     elif query == "close":
-        await app.edit_inline_text(callback_query.inline_message_id, "**— CLOSED**")
+        await app.edit_inline_caption(callback_query.inline_message_id, "**— CLOSED**")
         return
     elif query == "close_help":
         if callback_query.from_user.id not in users:
            return
-        await app.edit_inline_text(
+        await app.edit_inline_caption(
             callback_query.inline_message_id,
             "**— CLOSED MENU HELP**",
             reply_markup=InlineKeyboardMarkup(Data.reopen),
@@ -44,7 +44,7 @@ async def _callbacks(_, callback_query: CallbackQuery):
     elif query == "make_basic_button":
         try:
             bttn = paginate_help(0, CMD_HELP, "helpme")
-            await app.edit_inline_text(
+            await app.edit_inline_caption(
                 callback_query.inline_message_id,
                 Data.text_help_menu,
                 reply_markup=InlineKeyboardMarkup(bttn),
@@ -71,7 +71,7 @@ async def on_plug_in_cb(_, callback_query: CallbackQuery):
         if this_command is not None
         else f"{module_name} No documentation has been written for the module."
     )
-    await app.edit_inline_text(
+    await app.edit_inline_caption(
         callback_query.inline_message_id,
         reply_pop_up_alert,
         reply_markup=InlineKeyboardMarkup(bttn),
@@ -82,7 +82,7 @@ async def on_plug_in_cb(_, callback_query: CallbackQuery):
 @cb_wrapper
 async def reopen_in_cb(_, callback_query: CallbackQuery):
     buttons = paginate_help(0, CMD_HELP, "helpme")
-    await app.edit_inline_text(
+    await app.edit_inline_caption(
         callback_query.inline_message_id,
         Data.text_help_menu,
         reply_markup=InlineKeyboardMarkup(buttons),
@@ -94,7 +94,7 @@ async def reopen_in_cb(_, callback_query: CallbackQuery):
 async def on_plug_prev_in_cb(_, callback_query: CallbackQuery):
     current_page_number = int(callback_query.matches[0].group(1))
     buttons = paginate_help(current_page_number - 1, CMD_HELP, "helpme")
-    await app.edit_inline_text(
+    await app.edit_inline_caption(
         callback_query.inline_message_id,
         Data.text_help_menu,
         reply_markup=InlineKeyboardMarkup(buttons),
@@ -106,7 +106,7 @@ async def on_plug_prev_in_cb(_, callback_query: CallbackQuery):
 async def on_plug_next_in_cb(_, callback_query: CallbackQuery):
     current_page_number = int(callback_query.matches[0].group(1))
     buttons = paginate_help(current_page_number + 1, CMD_HELP, "helpme")
-    await app.edit_inline_text(
+    await app.edit_inline_caption(
         callback_query.inline_message_id,
         Data.text_help_menu,
         reply_markup=InlineKeyboardMarkup(buttons),
