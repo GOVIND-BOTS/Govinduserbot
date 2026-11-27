@@ -1,6 +1,6 @@
-from Zaid.database import cli
+from ICC.database import cli
 
-collection = cli["Zaid"]["rraid"]
+collection = cli["ICC"]["rraid"]
 
 
 async def rraid_user(chat):
