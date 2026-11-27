@@ -4,7 +4,7 @@ from pyrogram import Client, filters
 from pyrogram.errors import FloodWait
 from pyrogram.types import Message
 
-from Zaid.modules.help import add_command_help
+from ICC.modules.help import add_command_help
 
 
 @Client.on_message(filters.command("del", ".") & filters.me)
