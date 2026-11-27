@@ -4,7 +4,7 @@ from time import time
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.types import Message
 
-from Zaid.helper.interval import IntervalHelper
+from ICC.helper.interval import IntervalHelper
 
 
 async def CheckAdmin(message: Message):
