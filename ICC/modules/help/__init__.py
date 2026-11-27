@@ -1,1 +1,1 @@
-from Zaid.modules.help.help import *
+from ICC.modules.help.help import *
