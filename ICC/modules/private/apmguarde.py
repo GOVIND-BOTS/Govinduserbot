@@ -1,5 +1,6 @@
 from pyrogram import filters, Client
 import ICC.database.pmpermitdb as ICC
+from ICC.modules.help import *
 from .pmguard import get_arg
 
 @Client.on_message(filters.command("pmguard", ["."]) & filters.me)
