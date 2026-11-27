@@ -8,8 +8,8 @@ from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
 from pyrogram.raw.types import InputGroupCall, InputPeerChannel, InputPeerChat
 from pyrogram.types import Message
 
-from Zaid import SUDO_USER
-from Zaid.modules.help import add_command_help
+from ICC import SUDO_USER
+from ICC.modules.help import add_command_help
 
 
 def get_arg(message: Message):
