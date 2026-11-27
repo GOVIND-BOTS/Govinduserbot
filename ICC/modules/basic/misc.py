@@ -5,11 +5,11 @@ from platform import python_version
 from pyrogram import __version__, filters, Client
 from pyrogram.types import Message
 from config import ALIVE_PIC, ALIVE_TEXT
-from Zaid import START_TIME
-from Zaid import SUDO_USER
-from Zaid.helper.PyroHelpers import ReplyCheck
-from Zaid.modules.help import add_command_help
-from Zaid.modules.bot.inline import get_readable_time
+from ICC import START_TIME
+from ICC import SUDO_USER
+from ICC.helper.PyroHelpers import ReplyCheck
+from ICC.modules.help import add_command_help
+from ICC.modules.bot.inline import get_readable_time
 
 alive_logo = ALIVE_PIC or "https://telegra.ph/file/cc0890d0876bc18c19e05.jpg"
 
@@ -24,7 +24,7 @@ else:
         f"├• **ρуяσgяαм**: `{__version__}`\n"
         f"├• **ѕυρρσят**: [Click](t.me/TheSupportChat)\n"
         f"├• **¢нαииєℓ**: [Click](t.me/TheUpdatesChannel)\n"
-        f"└• **яєρσ**: [Click](https://GitHub.com/itz-zaid/Zaid-Userbot)"        
+        f"└• **яєρσ**: [Click](https://GitHub.com/itz-icc/ICC-Userbot)"        
     )
 
 @Client.on_message(
@@ -57,12 +57,12 @@ async def repo(bot: Client, message: Message):
     await asyncio.sleep(1)
     await message.edit("Fetching Source Code.....")
     await asyncio.sleep(1)
-    await message.edit("Here is repo: \n\n\nhttps://github.com/itz-zaid/Zaid-UserBot\nFork & Give an ⭐")
+    await message.edit("Here is repo: \n\n\nhttps://github.com/itz-icc/ICC-UserBot\nFork & Give an ⭐")
 
 
 @Client.on_message(filters.command("creator", ".") & filters.me)
 async def creator(bot: Client, message: Message):
-    await message.edit("https://gitHub.com/itz-zaid")
+    await message.edit("https://gitHub.com/itz-icc")
 
 
 @Client.on_message(filters.command(["uptime", "up"], ".") & filters.me)
