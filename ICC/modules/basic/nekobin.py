@@ -1,4 +1,4 @@
-from Zaid.modules.help import add_command_help
+from ICC.modules.help import add_command_help
 import asyncio
 import requests
 import aiohttp
@@ -10,7 +10,7 @@ import re
 
 from pyrogram.types import Message
 from httpx import AsyncClient
-from Zaid.helper.utility import get_arg
+from ICC.helper.utility import get_arg
 
 
 # Pastebins
