@@ -86,8 +86,8 @@ async def help_function(answers):
             title="ICC Help Menu",
             description="Choose a module to view its commands",
             caption=(
-                "<b>ICC USERBOT HELP MENU</b>\\n"
-                "<i>Select any module button below to see its commands.</i>\\n\\n"
+                "<b>ICC USERBOT HELP MENU</b>\n"
+                "<i>Select any module button below to see its commands.</i>\n\n"
                 f"<b>Total Modules:</b> <code>{len(CMD_HELP)}</code>"
             ),
             parse_mode=ParseMode.HTML,
