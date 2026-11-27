@@ -4,8 +4,8 @@ from urllib.parse import quote
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from Zaid.helper.aiohttp_helper import AioHttp
-from Zaid.modules.help import add_command_help
+from ICC.helper.aiohttp_helper import AioHttp
+from ICC.modules.help import add_command_help
 
 
 @Client.on_message(filters.command(["define", "dict"], ".") & filters.me)
