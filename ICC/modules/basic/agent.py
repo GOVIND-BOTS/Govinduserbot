@@ -119,7 +119,7 @@ async def execute_action(client, name, args):
             await client.delete_messages(args["chat"], ids)
             return "Deleted {} message(s).".format(len(ids))
         if name == "forward_message":
-            await client.forward_messages(args["to_chat"], int(args["message_id"]), args["from_chat"])
+            await client.forward_messages(args["to_chat"], args["from_chat"], int(args["message_id"]))
             return "Forwarded."
         return "Unknown action."
     except Exception as exc:
