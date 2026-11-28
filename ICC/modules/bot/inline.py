@@ -45,12 +45,12 @@ def _alive_keyboard():
 async def alive_function(message, answers):
     uptime = await get_readable_time(time.time() - StartTime)
     caption = (
-        "<b>✦ ICC USERBOT ✦</b>\\n\\n"
-        "<b>❏ Version:</b> <code>2.1</code>\\n"
-        f"<b>├• Uptime:</b> <code>{uptime}</code>\\n"
-        f"<b>├• Python:</b> <code>{pyver.split()[0]}</code>\\n"
-        f"<b>├• Pyrogram:</b> <code>{pyrover}</code>\\n"
-        "<b>└• Status:</b> <code>Online</code>\\n\\n"
+        "<b>✦ ICC USERBOT ✦</b>\n\n"
+        "<b>❏ Version:</b> <code>2.1</code>\n"
+        f"<b>├• Uptime:</b> <code>{uptime}</code>\n"
+        f"<b>├• Python:</b> <code>{pyver.split()[0]}</code>\n"
+        f"<b>├• Pyrogram:</b> <code>{pyrover}</code>\n"
+        "<b>└• Status:</b> <code>Online</code>\n\n"
         "<i>POWERED BY GOVIND-BOTS</i>"
     )
     photo = ALIVE_PIC.strip() if ALIVE_PIC else ""
@@ -74,9 +74,9 @@ async def help_function(answers):
         photo_url=photo, thumb_url=photo, title="ICC USERBOT Help Menu",
         description="Choose a module to view its commands",
         caption=(
-            f"<b>✦ ICC USERBOT HELP MENU ✦</b>\\n\\n"
-            f"<b>Available Modules:</b> <code>{len(CMD_HELP)}</code>\\n"
-            "Choose a module below.\\n"
+            f"<b>✦ ICC USERBOT HELP MENU ✦</b>\n\n"
+            f"<b>Available Modules:</b> <code>{len(CMD_HELP)}</code>\n"
+            "Choose a module below.\n"
             "<i>POWERED BY GOVIND-BOTS</i>"
         ),
         parse_mode=ParseMode.HTML, reply_markup=_help_keyboard(0),
