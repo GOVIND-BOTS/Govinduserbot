@@ -130,6 +130,7 @@ async def help_menu_callback(client, callback_query):
         body, parse_mode=enums.ParseMode.MARKDOWN,
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton("‹ BACK TO HELP", callback_data="help_page:0"),
+            InlineKeyboardButton("OWNER", url=f"tg://user?id={OWNER_ID}") if OWNER_ID else InlineKeyboardButton("OWNER", url="https://t.me/GOVIND_USERBOT_UPDATE"),
             InlineKeyboardButton("CLOSE", callback_data="help_close"),
         ]]),
     )
