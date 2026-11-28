@@ -1,6 +1,6 @@
 """Telegram dice and game animations.
 
-Feature concept adapted from LEGENDBOT emoji-games plugin (GPL-3.0).
+ICC USERBOT module.
 """
 from pyrogram import Client, filters
 from pyrogram.types import Message
