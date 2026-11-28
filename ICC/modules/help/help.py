@@ -8,7 +8,7 @@ from ICC.helper.PyroHelpers import ReplyCheck
 
 def _owner_button():
     return InlineKeyboardButton(
-        "𝐎ᴡɴᴇʀ",
+        "OWNER",
         url=f"tg://user?id={OWNER_ID}" if OWNER_ID else "https://t.me/govindofficialmp",
     )
 
@@ -37,35 +37,46 @@ def _help_keyboard(page=0):
     rows.append(nav)
     rows.append([
         _owner_button(),
-        InlineKeyboardButton("𝐒ᴜᴘᴘᴏʀᴛ", url="https://t.me/GOVIND_BOTS"),
-        InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇs", url="https://t.me/govindofficialmp"),
+        InlineKeyboardButton("SUPPORT", url="https://t.me/GOVIND_BOTS"),
+        InlineKeyboardButton("UPDATES", url="https://t.me/govindofficialmp"),
     ])
-    rows.append([InlineKeyboardButton("𝐂ʟᴏsᴇ", callback_data="help_close")])
+    rows.append([InlineKeyboardButton("CLOSE", callback_data="help_close")])
     return InlineKeyboardMarkup(rows)
 
 
 def _help_menu_text():
     return (
-        "✦ **𝐈𝐂𝐂 𝐔sᴇʀʙᴏᴛ 𝐇ᴇʟᴘ 𝐌ᴇɴᴜ** ✦\n\n"
+        "✦ **ICC USERBOT HELP CENTER** ✦\n"
+        "━━━━━━━━━━━━━━━━━━\n"
         f"**Available Modules:** `{len(CMD_HELP)}`\n"
-        "Choose a plugin from the buttons below to view its commands."
+        "Choose a module below to view its commands.\n"
+        "Use `.help <module>` to open a module directly.\n"
+        "━━━━━━━━━━━━━━━━━━\n"
+        "© **GOVIND-BOTS**"
     )
 
 
 def _module_text(module):
-    body = f"──「 **𝐇ᴇʟᴘ ғᴏʀ {module.upper()}** 」──\n\n"
-    for command, description in CMD_HELP.get(module, {}).items():
-        body += f"• **Command:** `{command}`\n• **Function:** `{description}`\n\n"
-    return body + "© @GOVIND_MP_USERBOT_SPPORT"
+    body = (
+        f"✦ **ICC USERBOT | {module.upper()}** ✦\n"
+        "━━━━━━━━━━━━━━━━━━\n\n"
+    )
+    commands = CMD_HELP.get(module, {})
+    if not commands:
+        body += "No commands are registered for this module.\n"
+    for command, description in commands.items():
+        body += f"**✧ Command:** `{command}`\n"
+        body += f"**✧ Description:** {description}\n\n"
+    return body + "━━━━━━━━━━━━━━━━━━\n© **GOVIND-BOTS**"
 
 
-async def _send_help(client, message, text, keyboard):
+async def _send_help(client, message):
     assistant = await app.get_me()
     if not assistant.username:
-        raise RuntimeError('Assistant bot must have a public username.')
-    results = await client.get_inline_bot_results(assistant.username, 'helper')
+        raise RuntimeError("Assistant bot must have a public username.")
+    results = await client.get_inline_bot_results(assistant.username, "helper")
     if not results.results:
-        raise RuntimeError('Assistant bot returned no Help Menu result.')
+        raise RuntimeError("Assistant bot returned no Help Menu result.")
     return await client.send_inline_bot_result(
         chat_id=message.chat.id,
         query_id=results.query_id,
@@ -73,12 +84,13 @@ async def _send_help(client, message, text, keyboard):
         reply_to_message_id=ReplyCheck(message),
     )
 
+
 @Client.on_message(filters.command(["help", "helpme"], ".") & filters.me)
 async def module_help(client: Client, message: Message):
     help_arg = " ".join(message.command[1:]).strip() if len(message.command) > 1 else ""
     if not help_arg:
         try:
-            await _send_help(client, message, _help_menu_text(), _help_keyboard(0))
+            await _send_help(client, message)
             await message.delete()
         except Exception as exc:
             await message.reply_text(
@@ -88,16 +100,14 @@ async def module_help(client: Client, message: Message):
 
     module = next((name for name in CMD_HELP if name.lower() == help_arg.lower()), None)
     if not module:
-        return await message.reply_text(f"`{help_arg}` **𝐍ᴏᴛ ᴀ 𝐕ᴀʟɪᴅ 𝐌ᴏᴅᴜʟᴇ 𝐍ᴀᴍᴇ.**")
+        return await message.reply_text(f"`{help_arg}` **is not a valid module name.**")
     try:
-        await _send_help(client, message, _module_text(module), InlineKeyboardMarkup([[
-            InlineKeyboardButton("‹ BACK TO HELP", callback_data="help_page:0"),
-            _owner_button(),
-            InlineKeyboardButton("𝐂ʟᴏsᴇ", callback_data="help_close"),
-        ]]))
+        await _send_help(client, message)
         await message.delete()
     except Exception as exc:
-        await message.reply_text(f"Enable assistant bot Inline Mode in @BotFather using /setinline, then retry.\n\nError: `{exc}`")
+        await message.reply_text(
+            f"Enable assistant bot Inline Mode in @BotFather using /setinline, then retry.\n\nError: `{exc}`"
+        )
 
 
 @Client.on_message(filters.command(["plugins", "modules"], ".") & filters.me)
@@ -105,29 +115,50 @@ async def module_helper(client: Client, message: Message):
     return await module_help(client, message)
 
 
-@app.on_callback_query(filters.regex(r"^help_(module|page):|^help_close$"))
+async def _edit_help_message(message, text, keyboard):
+    if message.photo:
+        return await message.edit_caption(
+            caption=text,
+            parse_mode=enums.ParseMode.MARKDOWN,
+            reply_markup=keyboard,
+        )
+    return await message.edit_text(
+        text=text,
+        parse_mode=enums.ParseMode.MARKDOWN,
+        reply_markup=keyboard,
+        disable_web_page_preview=True,
+    )
+
+
+@app.on_callback_query(filters.regex(r"^help_(open|module|page):?|^help_close$"))
 async def help_menu_callback(client, callback_query):
     user = callback_query.from_user
     allowed = set(ids)
     if OWNER_ID:
         allowed.add(OWNER_ID)
     if not user or (user.id not in allowed and not user.is_self):
-        return await callback_query.answer("This help menu is for the userbot owner.", show_alert=True)
+        return await callback_query.answer(
+            "This help menu is for the userbot owner.", show_alert=True
+        )
 
     data = callback_query.data
     if data == "help_close":
         await callback_query.message.delete()
         return await callback_query.answer("Help menu closed.")
 
+    if data == "help_open":
+        await _edit_help_message(
+            callback_query.message, _help_menu_text(), _help_keyboard(0)
+        )
+        return await callback_query.answer()
+
     if data.startswith("help_page:"):
         try:
             page = int(data.split(":", 1)[1])
         except ValueError:
             page = 0
-        await callback_query.message.edit_caption(
-            caption=_help_menu_text(),
-            parse_mode=enums.ParseMode.MARKDOWN,
-            reply_markup=_help_keyboard(page),
+        await _edit_help_message(
+            callback_query.message, _help_menu_text(), _help_keyboard(page)
         )
         return await callback_query.answer()
 
@@ -135,14 +166,13 @@ async def help_menu_callback(client, callback_query):
     if module not in CMD_HELP:
         return await callback_query.answer("Module not found.", show_alert=True)
 
-    await callback_query.message.edit_caption(
-        caption=_module_text(module),
-        parse_mode=enums.ParseMode.MARKDOWN,
-        reply_markup=InlineKeyboardMarkup([[
-            InlineKeyboardButton("‹ BACK TO HELP", callback_data="help_page:0"),
-            _owner_button(),
-            InlineKeyboardButton("𝐂ʟᴏsᴇ", callback_data="help_close"),
-        ]]),
+    keyboard = InlineKeyboardMarkup([[
+        InlineKeyboardButton("‹ BACK TO HELP", callback_data="help_open"),
+        _owner_button(),
+        InlineKeyboardButton("CLOSE", callback_data="help_close"),
+    ]])
+    await _edit_help_message(
+        callback_query.message, _module_text(module), keyboard
     )
     await callback_query.answer()
 
