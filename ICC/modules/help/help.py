@@ -8,8 +8,15 @@ from config import OWNER_ID
 from ICC.helper.PyroHelpers import ReplyCheck
 
 
+def _owner_button():
+    return InlineKeyboardButton(
+        "𝐎ᴡɴᴇʀ",
+        url=f"tg://user?id={OWNER_ID}" if OWNER_ID else "https://t.me/GOVIND_USERBOT_UPDATE",
+    )
+
+
 def _help_keyboard(page=0):
-    modules = sorted(CMD_HELP)
+    modules = sorted(CMD_HELP, key=str.lower)
     per_page = 16
     total_pages = max(1, (len(modules) + per_page - 1) // per_page)
     page = max(0, min(page, total_pages - 1))
@@ -17,45 +24,33 @@ def _help_keyboard(page=0):
     rows = []
     for index in range(0, len(current), 2):
         left = current[index]
-        row = [InlineKeyboardButton(left.upper(), callback_data=f"help_module:{left}")]
+        row = [InlineKeyboardButton(f"✦ {left.upper()}", callback_data=f"help_module:{left}")]
         if index + 1 < len(current):
             right = current[index + 1]
-            row.append(InlineKeyboardButton(right.upper(), callback_data=f"help_module:{right}"))
+            row.append(InlineKeyboardButton(f"✦ {right.upper()}", callback_data=f"help_module:{right}"))
         rows.append(row)
     nav = []
     if page > 0:
         nav.append(InlineKeyboardButton("‹ PREVIOUS", callback_data=f"help_page:{page-1}"))
-    nav.append(InlineKeyboardButton(f"{page+1}/{total_pages}", callback_data="help_page:0"))
+    nav.append(InlineKeyboardButton(f"{page+1}/{total_pages}", callback_data=f"help_page:{page}"))
     if page + 1 < total_pages:
         nav.append(InlineKeyboardButton("NEXT ›", callback_data=f"help_page:{page+1}"))
     rows.append(nav)
     rows.append([
-        InlineKeyboardButton("OWNER", url=f"tg://user?id={OWNER_ID}") if OWNER_ID else InlineKeyboardButton("OWNER", url="https://t.me/GOVIND_USERBOT_UPDATE"),
-        InlineKeyboardButton("SUPPORT", url="https://t.me/GOVIND_MP_USERBOT_SPPORT"),
-        InlineKeyboardButton("UPDATES", url="https://t.me/GOVIND_USERBOT_UPDATE"),
+        _owner_button(),
+        InlineKeyboardButton("𝐒ᴜᴘᴘᴏʀᴛ", url="https://t.me/GOVIND_MP_USERBOT_SPPORT"),
+        InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇs", url="https://t.me/GOVIND_USERBOT_UPDATE"),
     ])
-    rows.append([InlineKeyboardButton("CLOSE", callback_data="help_close")])
+    rows.append([InlineKeyboardButton("𝐂ʟᴏsᴇ", callback_data="help_close")])
     return InlineKeyboardMarkup(rows)
 
 
 def _help_menu_text():
-    modules = sorted(CMD_HELP, key=str.lower)
-    width = max([len(name) for name in modules] + [10])
-    width = min(max(width, 10), 16)
-    lines = [
-        "| " + "𝐈𝐂𝐂 𝐔sᴇʀʙᴏᴛ 𝐏ʟᴜɢɪɴs".center(width * 2 + 3) + " |",
-        "+" + "-" * (width + 2) + "+" + "-" * (width + 2) + "+",
-    ]
-    for index in range(0, len(modules), 2):
-        left = modules[index]
-        right = modules[index + 1] if index + 1 < len(modules) else ""
-        lines.append(f"| {left:<{width}} | {right:<{width}} |")
-    lines.append("+" + "-" * (width + 2) + "+" + "-" * (width + 2) + "+")
     return (
         "✦ **𝐈𝐂𝐂 𝐔sᴇʀʙᴏᴛ 𝐇ᴇʟᴘ 𝐌ᴇɴᴜ** ✦\n\n"
-        "Select a separate plugin button below to view its commands.\n\n"
         f"**Available Modules:** `{len(CMD_HELP)}`\n"
-        "```\n" + "\n".join(lines) + "\n```"
+        "Choose a plugin from the buttons below to view its commands.\n\n"
+        "Use **NEXT** to see more plugins."
     )
 
 
@@ -74,8 +69,8 @@ async def _show_module(message, module):
         message, body, parse_mode=enums.ParseMode.MARKDOWN,
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton("‹ BACK TO HELP", callback_data="help_page:0"),
-            InlineKeyboardButton("OWNER", url=f"tg://user?id={OWNER_ID}") if OWNER_ID else InlineKeyboardButton("OWNER", url="https://t.me/GOVIND_USERBOT_UPDATE"),
-            InlineKeyboardButton("CLOSE", callback_data="help_close"),
+            _owner_button(),
+            InlineKeyboardButton("𝐂ʟᴏsᴇ", callback_data="help_close"),
         ]]),
     )
 
@@ -130,8 +125,8 @@ async def help_menu_callback(client, callback_query):
         body, parse_mode=enums.ParseMode.MARKDOWN,
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton("‹ BACK TO HELP", callback_data="help_page:0"),
-            InlineKeyboardButton("OWNER", url=f"tg://user?id={OWNER_ID}") if OWNER_ID else InlineKeyboardButton("OWNER", url="https://t.me/GOVIND_USERBOT_UPDATE"),
-            InlineKeyboardButton("CLOSE", callback_data="help_close"),
+            _owner_button(),
+            InlineKeyboardButton("𝐂ʟᴏsᴇ", callback_data="help_close"),
         ]]),
     )
     await callback_query.answer()
