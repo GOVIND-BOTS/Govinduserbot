@@ -5,7 +5,7 @@ import os
 import shlex
 import textwrap
 from typing import Tuple
-import asyncio 
+import asyncio
 
 from pyrogram import Client
 from pyrogram import __version__ as pyrover
@@ -45,7 +45,6 @@ async def get_readable_time(seconds: int) -> str:
 
     time_list.reverse()
     up_time += ":".join(time_list)
-
     return up_time
 
 
@@ -60,13 +59,13 @@ async def alive_function(message: Message, answers):
 <b>├• 𝐏ʏʀᴏɢʀᴀᴍ:</b> <code>{pyrover}</code>
 <b>└• 𝐒ᴛᴀᴛᴜs:</b> <code>Online</code>
 """
+    photo = ALIVE_PIC or "https://telegra.ph/file/cc0890d0876bc18c19e05.jpg"
     answers.append(
         InlineQueryResultPhoto(
-            photo_url=ALIVE_PIC or "https://telegra.ph/file/cc0890d0876bc18c19e05.jpg",
-            thumb_url=ALIVE_PIC or "https://telegra.ph/file/cc0890d0876bc18c19e05.jpg",
+            photo_url=photo,
+            thumb_url=photo,
             title="Alive",
             description="Check Bot's Stats",
-            thumb_url="https://telegra.ph/file/cc0890d0876bc18c19e05.jpg",
             caption=msg,
             parse_mode=ParseMode.HTML,
             reply_markup=InlineKeyboardMarkup([
@@ -93,7 +92,7 @@ async def help_function(answers):
             thumb_url="https://telegra.ph/file/cc0890d0876bc18c19e05.jpg",
             title="ICC Help Menu",
             description="Choose a plugin button to view its commands",
-            caption=f"<b>✦ ICC USERBOT HELP MENU ✦</b>\n\n<b>Available Modules:</b> <code>{len(CMD_HELP)}</code>\nChoose a plugin below.",
+            caption=f"<b>✦ ICC USERBOT HELP MENU ✦</b>\\n\\n<b>Available Modules:</b> <code>{len(CMD_HELP)}</code>\\nChoose a plugin below.",
             parse_mode=ParseMode.HTML,
             reply_markup=_help_keyboard(0),
         )
@@ -115,6 +114,5 @@ async def inline_query_handler(client: Client, query):
         elif string_given.startswith("helper"):
             answers = await help_function(answers)
             await client.answer_inline_query(query.id, results=answers, cache_time=0)
-    except Exception as e:
-        e = traceback.format_exc()
-        print(e, "InLine")
+    except Exception:
+        print(traceback.format_exc(), "InLine")
