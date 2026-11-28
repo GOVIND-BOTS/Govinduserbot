@@ -1,6 +1,6 @@
 """Telegram media metadata inspector for ICC Userbot.
 
-Feature concept adapted from LEGENDBOT media-info plugin (GPL-3.0).
+ICC USERBOT module.
 """
 from pyrogram import Client, filters
 from pyrogram.types import Message
