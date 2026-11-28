@@ -21,6 +21,7 @@ from pyrogram.types import (
 
 from ICC import CMD_HELP, StartTime, app
 from ICC.helper.data import Data
+from config import OWNER_ID
 from ICC.helper.inline import inline_wrapper, paginate_help
 
 async def get_readable_time(seconds: int) -> str:
@@ -79,6 +80,11 @@ async def alive_function(message: Message, answers):
 
 async def help_function(answers):
     bttn = paginate_help(0, CMD_HELP, "helpme")
+    bttn.append((
+        InlineKeyboardButton("OWNER", url=f"tg://user?id={OWNER_ID}") if OWNER_ID else InlineKeyboardButton("OWNER", url="https://t.me/GOVIND_USERBOT_UPDATE"),
+        InlineKeyboardButton("SUPPORT", url="https://t.me/GOVIND_MP_USERBOT_SPPORT"),
+        InlineKeyboardButton("UPDATES", url="https://t.me/GOVIND_USERBOT_UPDATE"),
+    ))
     answers.append(
         InlineQueryResultPhoto(
             photo_url="https://telegra.ph/file/cc0890d0876bc18c19e05.jpg",
