@@ -1300,7 +1300,7 @@ async def _play_icc_animation(message: Message, frames, delay=1.5):
         except FloodWait as wait:
             # Respect Telegram's requested cooldown, then stop this animation
             # rather than creating a burst of more edits.
-            await asyncio.sleep(wait.value)
+            await asyncio.sleep(int(getattr(wait, "value", getattr(wait, "x", 1))))
             break
         except Exception as exc:
             if "MESSAGE_NOT_MODIFIED" not in str(exc).upper():
