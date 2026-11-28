@@ -21,7 +21,7 @@ from pyrogram.types import (
 
 from ICC import CMD_HELP, StartTime, app
 from ICC.helper.data import Data
-from config import OWNER_ID
+from config import OWNER_ID, REPO_URL
 from ICC.helper.inline import inline_wrapper, paginate_help
 
 async def get_readable_time(seconds: int) -> str:
@@ -70,9 +70,17 @@ async def alive_function(message: Message, answers):
             input_message_content=InputTextMessageContent(
                 msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True
             ),
-            reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton("──「 ʜᴇʟᴘ 」──", callback_data="helper")]]
-            ),
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("𝐇ᴇʟᴘ", callback_data="helper")],
+                [
+                    InlineKeyboardButton("𝐎ᴡɴᴇʀ", url=f"tg://user?id={OWNER_ID}") if OWNER_ID else InlineKeyboardButton("𝐎ᴡɴᴇʀ", url="https://t.me/GOVIND_USERBOT_UPDATE"),
+                    InlineKeyboardButton("𝐑ᴇᴘᴏ", url=REPO_URL or "https://github.com/GOVIND-BOTS/Govinduserbot"),
+                ],
+                [
+                    InlineKeyboardButton("𝐒ᴜᴘᴘᴏʀᴛ 𝐆ʀᴏᴜᴘ", url="https://t.me/GOVIND_MP_USERBOT_SPPORT"),
+                    InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇ 𝐂ʜᴀɴɴᴇʟ", url="https://t.me/GOVIND_USERBOT_UPDATE"),
+                ],
+            ]),
         )
     )
     return answers
