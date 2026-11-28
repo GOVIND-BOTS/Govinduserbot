@@ -3,8 +3,8 @@ from datetime import datetime
 from platform import python_version
 
 from pyrogram import __version__, filters, Client
-from pyrogram.types import Message
-from config import ALIVE_PIC, ALIVE_TEXT
+from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
+from config import ALIVE_PIC, ALIVE_TEXT, OWNER_ID, REPO_URL
 from ICC import START_TIME
 from ICC import SUDO_USER
 from ICC.helper.PyroHelpers import ReplyCheck
@@ -14,15 +14,24 @@ from ICC.modules.bot.inline import get_readable_time
 alive_logo = ALIVE_PIC or "https://telegra.ph/file/cc0890d0876bc18c19e05.jpg"
 
 txt = (
-    "**✦ GOVIND USERBOT ✦**\n\n"
-    "❏ **Version:** `2.1`\n"
-    f"├• **Uptime:** `{str(datetime.now() - START_TIME).split('.')[0]}`\n"
-    f"├• **Python:** `{python_version()}`\n"
-    f"├• **Pyrogram:** `{__version__}`\n"
-    "├• **Support:** [Click](https://t.me/GOVIND_MP_USERBOT_SPPORT)\n"
-    "├• **Channel:** [Click](https://t.me/GOVIND_USERBOT_UPDATE)\n"
-    "└• **Repo:** [Click](https://github.com/GOVIND-BOTS/Govinduserbot)"
+    "✦ **𝐈𝐂𝐂 𝐔sᴇʀʙᴏᴛ** ✦\n\n"
+    "❏ **𝐕ᴇʀsɪᴏɴ:** `2.1`\n"
+    f"├• **𝐔ᴘᴛɪᴍᴇ:** `{str(datetime.now() - START_TIME).split('.')[0]}`\n"
+    f"├• **𝐏ʏᴛʜᴏɴ:** `{python_version()}`\n"
+    f"├• **𝐏ʏʀᴏɢʀᴀᴍ:** `{__version__}`\n"
+    "└• **𝐒ᴛᴀᴛᴜs:** `Online`"
 )
+
+alive_buttons = InlineKeyboardMarkup([
+    [
+        InlineKeyboardButton("𝐎ᴡɴᴇʀ", url=f"tg://user?id={OWNER_ID}") if OWNER_ID else InlineKeyboardButton("𝐎ᴡɴᴇʀ", url="https://t.me/GOVIND_USERBOT_UPDATE"),
+        InlineKeyboardButton("𝐑ᴇᴘᴏ", url=REPO_URL or "https://github.com/GOVIND-BOTS/Govinduserbot"),
+    ],
+    [
+        InlineKeyboardButton("𝐒ᴜᴘᴘᴏʀᴛ 𝐆ʀᴏᴜᴘ", url="https://t.me/GOVIND_MP_USERBOT_SPPORT"),
+        InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇ 𝐂ʜᴀɴɴᴇʟ", url="https://t.me/GOVIND_USERBOT_UPDATE"),
+    ],
+])
 
 @Client.on_message(
     filters.command(["alive", "awake"], ".") & (filters.me | filters.user(SUDO_USER))
@@ -42,11 +51,12 @@ async def alive(client: Client, message: Message):
                 message.chat.id,
                 alive_logo,
                 caption=xd,
+                reply_markup=alive_buttons,
                 reply_to_message_id=ReplyCheck(message),
             ),
         )
     except BaseException:
-        await xx.edit(xd, disable_web_page_preview=True)
+        await xx.edit(xd, disable_web_page_preview=True, reply_markup=alive_buttons)
 
 @Client.on_message(filters.command("repo", ".") & filters.me)
 async def repo(bot: Client, message: Message):
