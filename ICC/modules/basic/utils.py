@@ -101,40 +101,6 @@ async def timezone_time(_, message: Message):
     )
 
 
-@Client.on_message(filters.command(["ud"], ".") & filters.me)
-async def urban_dictionary(_, message: Message):
-    term = " ".join(message.command[1:]).strip()
-    if not term and message.reply_to_message:
-        term = message.reply_to_message.text or ""
-    if not term:
-        return await message.edit_text("Usage: `.ud word`")
-    url = "https://api.urbandictionary.com/v0/define?term=" + quote(term)
-    try:
-        timeout = aiohttp.ClientTimeout(total=12)
-        async with aiohttp.ClientSession(timeout=timeout) as session:
-            async with session.get(url) as response:
-                data = await response.json()
-        entries = data.get("list") or []
-        if not entries:
-            return await message.edit_text("No Urban Dictionary definition found.")
-        item = entries[0]
-        definition = item.get("definition", "").replace("[", "").replace("]", "")
-        example = item.get("example", "").replace("[", "").replace("]", "")
-        text = f"**{item.get('word', term)}**\n\n**Meaning:**\n{definition}"
-        if example:
-            text += f"\n\n**Example:**\n{example}"
-        await message.edit_text(text[:4000], disable_web_page_preview=True)
-    except Exception as exc:
-        await message.edit_text(f"Lookup failed: `{type(exc).__name__}`")
-
-
-async def _get_url_argument(message: Message):
-    value = " ".join(message.command[1:]).strip()
-    if not value and message.reply_to_message:
-        value = message.reply_to_message.text or message.reply_to_message.caption or ""
-    return value.strip().split()[0] if value.strip() else ""
-
-
 @Client.on_message(filters.command(["short"], ".") & filters.me)
 async def shorten_url(_, message: Message):
     value = await _get_url_argument(message)
@@ -214,7 +180,6 @@ add_command_help(
         [".hash <text>", "Generate MD5, SHA1, SHA256 and SHA512 hashes."],
         [".hbase en|de <text>", "Encode or decode Base64."],
         [".time [timezone]", "Show the current time in an IANA timezone."],
-        [".ud <word>", "Look up an Urban Dictionary definition."],
         [".short <url>", "Shorten a URL."],
         [".unshort <url>", "Follow redirects and expand a URL."],
         [".dns <domain>", "Look up DNS A records."],
