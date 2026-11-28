@@ -1363,6 +1363,295 @@ async def dance_animation(client: Client, message: Message):
     await _play_icc_animation(message, frames, delay=1.2)
 
 
+
+
+# Extra safe animations ported from Plugins-T (Telethon -> Pyrogram).
+# Existing ICC commands are intentionally not duplicated.
+async def _play_source_animation(message: Message, frames, delay=0.8):
+    await _play_icc_animation(message, frames[:24], delay=delay)
+
+
+@Client.on_message(filters.command("boxs", ".") & filters.me)
+async def boxs_animation(client: Client, message: Message):
+    from collections import deque
+    row = deque("🟥🟧🟨🟩🟦🟪🟫⬛⬜")
+    await _play_source_animation(message, ["".join(row.rotate(1) or row) for _ in range(1)] if False else [
+        "🟥🟧🟨🟩🟦🟪🟫⬛⬜", "⬜🟥🟧🟨🟩🟦🟪🟫⬛",
+        "⬛⬜🟥🟧🟨🟩🟦🟪🟫", "🟫⬛⬜🟥🟧🟨🟩🟦🟪",
+        "🟪🟫⬛⬜🟥🟧🟨🟩🟦", "🟦🟪🟫⬛⬜🟥🟧🟨🟩",
+        "🟩🟦🟪🟫⬛⬜🟥🟧🟨", "🟨🟩🟦🟪🟫⬛⬜🟥🟧",
+    ], 0.45)
+
+
+@Client.on_message(filters.command("rain", ".") & filters.me)
+async def rain_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "🌬 ☁️ 🌩 🌨 🌧 🌦 🌥 ⛅ 🌤",
+        "☁️ 🌩 🌨 🌧 🌦 🌥 ⛅ 🌤 🌬",
+        "🌩 🌨 🌧 🌦 🌥 ⛅ 🌤 🌬 ☁️",
+        "🌨 🌧 🌦 🌥 ⛅ 🌤 🌬 ☁️ 🌩",
+        "🌧 🌦 🌥 ⛅ 🌤 🌬 ☁️ 🌩 🌨",
+        "🌦 🌥 ⛅ 🌤 🌬 ☁️ 🌩 🌨 🌧",
+    ], 0.5)
+
+
+@Client.on_message(filters.command("dump", ".") & filters.me)
+async def dump_animation(client: Client, message: Message):
+    parts = message.text.split(maxsplit=1)
+    items = (parts[1].split()[:3] if len(parts) > 1 else ["🥞", "🎂", "🍫"])
+    while len(items) < 3:
+        items.append("🎁")
+    a, b, d = items
+    await _play_source_animation(message, [
+        f"{a}   {b}   {d}\n\n      (•‿•)",
+        f"{a}   {b}   {d}\n\n   (ง •̀_•́)ง",
+        f"{a}   {b}   {d}\n\n      🗑️",
+        f"{a}   {b}   {d}\n\n   🗑️  (•̀ᴗ•́)و",
+        "🗑️  *All dropped!* 😂",
+    ], 0.7)
+
+
+@Client.on_message(filters.command("fleaveme", ".") & filters.me)
+async def fleaveme_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "⬛⬛⬛\n⬛⬛⬛\n⬛⬛⬛",
+        "⬛⬛⬛\n⬛🔄⬛\n⬛⬛⬛",
+        "⬛⬆️⬛\n⬛🔄⬛\n⬛⬛⬛",
+        "⬛⬆️↗️\n⬛🔄➡️\n⬛⬛⬛",
+        "⬛⬆️↗️\n⬛🔄➡️\n⬛⬇️↘️",
+        "↖️⬆️↗️\n⬅️🔄➡️\n↙️⬇️↘️",
+    ], 0.7)
+
+
+@Client.on_message(filters.command("loveu", ".") & filters.me)
+async def loveu_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "😀", "😁", "😂", "🤣", "😃", "😄", "😅", "😊", "☺️",
+        "🙂", "🤔", "🤨", "😐", "😶", "😮", "😴", "😕", "🙃",
+        "😞", "😢", "😭", "🤯", "💔", "❤️", "I Love You ❤️",
+    ], 0.5)
+
+
+@Client.on_message(filters.command("plane", ".") & filters.me)
+async def plane_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "✈️-------------", "-✈️------------", "--✈️-----------",
+        "---✈️----------", "----✈️---------", "-----✈️--------",
+        "------✈️-------", "-------✈️------", "--------✈️-----",
+        "---------✈️----", "----------✈️---", "-----------✈️--",
+        "------------✈️-", "-------------✈️", "✈️  Landing complete! 🛬",
+    ], 0.25)
+
+
+@Client.on_message(filters.command("police", ".") & filters.me)
+async def police_animation(client: Client, message: Message):
+    red = "🔴🔴🔴⬜⬜⬜🔵🔵🔵"
+    blue = "🔵🔵🔵⬜⬜⬜🔴🔴🔴"
+    await _play_source_animation(message, [
+        (red + "\n") * 2 + red, (blue + "\n") * 2 + blue,
+        (red + "\n") * 2 + red, (blue + "\n") * 2 + blue,
+        "🚨🚓 POLICE ARRIVED! 🚓🚨",
+    ], 0.45)
+
+
+@Client.on_message(filters.command("jio", ".") & filters.me)
+async def jio_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "Connecting to network...",
+        "█ ▇ ▆ ▅ ▄ ▂ ▁", "▒ ▇ ▆ ▅ ▄ ▂ ▁",
+        "▒ ▒ ▆ ▅ ▄ ▂ ▁", "▒ ▒ ▒ ▅ ▄ ▂ ▁",
+        "▒ ▒ ▒ ▒ ▄ ▂ ▁", "▒ ▒ ▒ ▒ ▒ ▂ ▁",
+        "Optimising signal... 📶",
+        "▁ ▂ ▄ ▅ ▆ ▇ █", "📶 Signal full! (Just for fun 😂)",
+    ], 0.65)
+
+
+@Client.on_message(filters.command("solarsystem", ".") & filters.me)
+async def solarsystem_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "◼️◼️◼️◼️◼️\n◼️◼️◼️◼️☀️\n◼️◼️🌎◼️◼️\n🌕◼️◼️◼️◼️",
+        "🌕◼️◼️◼️◼️\n◼️◼️🌎◼️◼️\n◼️◼️◼️◼️☀️",
+        "◼️🌕◼️◼️◼️\n◼️◼️🌎◼️◼️\n◼️◼️◼️☀️◼️",
+        "◼️◼️◼️🌕◼️\n◼️◼️🌎◼️◼️\n◼️☀️◼️◼️◼️",
+        "◼️◼️◼️◼️🌕\n◼️◼️🌎◼️◼️\n☀️◼️◼️◼️◼️",
+        "🌍 Solar system in motion 🌕",
+    ], 0.7)
+
+
+@Client.on_message(filters.command("degi", ".") & filters.me)
+async def degi_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "WO", "DEGI", "TUM", "EKBAR", "MANG", "KAR", "TOH", "DEKHO 😄",
+    ], 1.0)
+
+
+@Client.on_message(filters.command("hnd", ".") & filters.me)
+async def hnd_animation(client: Client, message: Message):
+    name = message.text.split(maxsplit=1)[1][:40] if len(message.text.split(maxsplit=1)) > 1 else "GOVIND"
+    await _play_source_animation(message, [
+        "👇🏿👇🏿👇🏿👇🏿👇🏿\n👉🏿             👈🏿\n👉🏿             👈🏿\n👆🏿👆🏿👆🏿👆🏿👆🏿",
+        "👇🏾👇🏾👇🏾👇🏾\n👉🏾          👈🏾\n👉🏾          👈🏾\n👆🏾👆🏾👆🏾👆🏾",
+        "👇🏽👇🏽👇🏽\n👉🏽       👈🏽\n👉🏽       👈🏽\n👆🏽👆🏽👆🏽",
+        f"👇🏻👇🏻👇🏻\n{name}\n👆🏻👆🏻👆🏻",
+        f"👉🏻  {name}  👈🏻\n🙌🏻🙌🏻🙌🏻",
+    ], 0.6)
+
+
+@Client.on_message(filters.command("amore", ".") & filters.me)
+async def amore_animation(client: Client, message: Message):
+    await _play_source_animation(message, ["A_", "AM_", "AMO_", "AMOR_", "AMORE_", "AMORE ❤️", "💗"], 0.5)
+
+
+@Client.on_message(filters.command("sexy", ".") & filters.me)
+async def sexy_animation(client: Client, message: Message):
+    await _play_source_animation(message, ["S_", "SE_", "SEX_", "SEXY_", "SEXY 👄", "😎"], 0.55)
+
+
+@Client.on_message(filters.command("lmoon", ".") & filters.me)
+async def lmoon_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "🌕🌕🌕🌕🌕🌕🌕🌕\n🌕🌕🌖🌔🌖🌔🌕🌕\n🌕🌕🌗🌔🌖🌓🌕🌕",
+        "🌕🌕🌕🌕🌕🌕🌕🌕\n🌕🌕🌖🌓🌗🌔🌕🌕\n🌕🌕🌗🌑🌑🌓🌕🌕",
+        "🌕🌕🌗👀🌑🌓🌕🌕\n🌕🌕🌘👄🌑🌓🌕🌕\n🌕🌕🌗🌑🌑🌒🌕🌕",
+        "🌕🌕🌕🌕🌕🌕🌕🌕\n🌕🌖🌑🌑🌑🌑🌔🌕\n🌕🌘🌑🌑🌑🌑🌒🌕",
+    ], 0.8)
+
+
+@Client.on_message(filters.command("city", ".") & filters.me)
+async def city_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "☁️☁️🌞       ☁️       🚁",
+        "🏬🏨🏫🏢🏥🏦🏪",
+        "🌲🚍🌳  🚘 🏃 🌴",
+        "🚶  🚕  🚌  🚴  🚓",
+        "🌳🏙️🏙️🏙️🌲\n🌆 Welcome to the city! 🌆",
+    ], 0.8)
+
+
+@Client.on_message(filters.command("hii", ".") & filters.me)
+async def hii_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "🌺✨✨🌺✨🌺🌺🌺\n🌺✨✨🌺✨✨🌺✨",
+        "🌺🌺🌺🌺✨✨🌺✨\n🌺✨✨🌺✨✨🌺✨",
+        "🌺✨✨🌺✨🌺🌺🌺\n☁️☁️☁️☁️☁️☁️",
+    ], 0.75)
+
+
+@Client.on_message(filters.command("cheer", ".") & filters.me)
+async def cheer_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "💐💐😉😊💐💐\n☕ Cheer Up 🍵",
+        "🍂 ✨ )) ✨ 🍂\n🍂┃ (( * ┣┓ 🍂",
+        "🍂┃*💗 ┣┛ 🍂\n🍂┗━━┛ 🍂",
+        "💐💐😌😚💐💐\n🎂 For YOU 🍰",
+    ], 0.8)
+
+
+@Client.on_message(filters.command("getwell", ".") & filters.me)
+async def getwell_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "🌹🌹🌹🌹🌹🌹🌹🌹",
+        "🌹😷😢😓😷😢💨🌹",
+        "🌹💝💉🍵💊💐💝🌹",
+        "🌹 GET WELL SOON! 🌹",
+        "🌹🌹🌹🌹🌹🌹🌹🌹",
+    ], 0.8)
+
+
+@Client.on_message(filters.command("switch", ".") & filters.me)
+async def switch_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜",
+        "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n👉️⬜⬜⬜⬜⬜⬜",
+        "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜🔘⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜",
+        "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜🟢⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜",
+        "💡 Switch ON! ⚡",
+    ], 0.7)
+
+
+@Client.on_message(filters.command("sprinkle", ".") & filters.me)
+async def sprinkle_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "✨", "✨ 🌟", "✨ 🌟 💫", "🌟 ✨ 💫 🌠",
+        "🎉✨🎊✨🎉", "🥳 PARTY! 🎉",
+    ], 0.65)
+
+
+@Client.on_message(filters.command("eye", ".") & filters.me)
+async def eye_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "👁️", "👁️ 👁️", "👀", "👀  👀",
+        "👁️👁️👁️", "I SEE YOU! 👀",
+    ], 0.7)
+
+
+@Client.on_message(filters.command("thinking", ".") & filters.me)
+async def thinking_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "🤔", "🤔💭", "💭  💭", "🧠 THINKING...",
+        "⌛ STILL THINKING...", "😂 ANSWER NOT FOUND!",
+    ], 0.8)
+
+
+@Client.on_message(filters.command("snake", ".") & filters.me)
+async def snake_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "🐍", "🐍〰️", "〰️🐍〰️", "〰️〰️🐍",
+        "🐍💨 SSSSS!", "🐍 Bye!",
+    ], 0.65)
+
+
+@Client.on_message(filters.command("human", ".") & filters.me)
+async def human_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "🧍", "🚶", "🏃", "🤸", "🕺", "🙋 HUMAN MODE ON!",
+    ], 0.7)
+
+
+@Client.on_message(filters.command("mc", ".") & filters.me)
+async def mc_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "🎤 MIC CHECK...", "🎤 ONE TWO ONE TWO",
+        "🎶 SOUND CHECK 🎶", "🎤 MIC DROP! 🎤",
+    ], 0.9)
+
+
+@Client.on_message(filters.command("virus", ".") & filters.me)
+async def virus_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "🧪 Running pretend virus scan...",
+        "🔴🟢🔵🟡 Scanning...",
+        "🛡️ Checking files...",
+        "✅ No virus found!",
+        "😂 This was only an animation.",
+    ], 0.9)
+
+
+@Client.on_message(filters.command("music", ".") & filters.me)
+async def music_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "🎵 Starting pretend music player...",
+        "▶️ 00:01 ▰▱▱▱▱▱▱▱",
+        "⏸️ 00:02 ▰▰▱▱▱▱▱▱",
+        "▶️ 00:03 ▰▰▰▱▱▱▱▱",
+        "🎶 Now Playing: Good Vibes",
+        "🎧 Music animation finished!",
+    ], 0.9)
+
+
+@Client.on_message(filters.command("squ", ".") & filters.me)
+async def squ_animation(client: Client, message: Message):
+    await _play_source_animation(message, [
+        "╔═══════════════════╗\n                     \n╚═══════════════════╝",
+        "╔═══════════════════╗\n ░                   \n╚═══════════════════╝",
+        "╔═══════════════════╗\n ░ ░ ░               \n╚═══════════════════╝",
+        "╔═══════════════════╗\n ░ ░ ░ ░ ░           \n╚═══════════════════╝",
+        "╔═══════════════════╗\n ░ ░ ░ ░ ░ ░ ░ ░     \n╚═══════════════════╝",
+        "╔═══════════════════╗\n ░ ░ ░ ░ ░ ░ ░ ░ ░ ░ \n╚═══════════════════╝",
+    ], 0.7)
+
+
+
 add_command_help(
     "animation",
     [
@@ -1421,5 +1710,33 @@ add_command_help(
         ["roast", "Play a light-hearted roast animation."],
         ["attitude", "Play a funny attitude/status animation."],
         ["dance", "Play a short dance animation."],
+        ["boxs", "Play a moving coloured-box animation."],
+        ["rain", "Play a weather animation."],
+        ["dump", "Drop up to three items in an animation."],
+        ["fleaveme", "Play a rotating-arrow animation."],
+        ["loveu", "Play a changing emoji animation."],
+        ["plane", "Play a flying-plane animation."],
+        ["police", "Play flashing police-light art."],
+        ["jio", "Play a pretend network-signal animation."],
+        ["solarsystem", "Play a solar-system animation."],
+        ["degi", "Play a short Hindi text animation."],
+        ["hnd [name]", "Display a hand-frame animation around a name."],
+        ["amore", "Play a heart text animation."],
+        ["sexy", "Play a short stylish text animation."],
+        ["lmoon", "Display moon-face ASCII art."],
+        ["city", "Display animated city art."],
+        ["hii", "Display a greeting animation."],
+        ["cheer", "Send a cheer-up animation."],
+        ["getwell", "Send a get-well-soon animation."],
+        ["switch", "Play a switch-on animation."],
+        ["sprinkle", "Play a sparkle animation."],
+        ["eye", "Play an eye animation."],
+        ["thinking", "Play a thinking animation."],
+        ["snake", "Play a snake animation."],
+        ["human", "Play a moving human emoji animation."],
+        ["mc", "Play a microphone animation."],
+        ["virus", "Play a pretend virus-scan animation."],
+        ["music", "Play a pretend music-player animation."],
+        ["squ", "Play a loading-bar animation."],
     ],
 )
