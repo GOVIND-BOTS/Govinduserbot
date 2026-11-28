@@ -1,6 +1,6 @@
 """Rename and resend a replied Telegram file.
 
-Feature concept adapted from LEGENDBOT rename plugin (GPL-3.0).
+ICC USERBOT module.
 """
 import os
 import tempfile
