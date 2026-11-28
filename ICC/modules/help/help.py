@@ -52,10 +52,10 @@ def _help_menu_text():
         lines.append(f"| {left:<{width}} | {right:<{width}} |")
     lines.append("+" + "-" * (width + 2) + "+" + "-" * (width + 2) + "+")
     return (
-        "✦ **𝐈𝐂𝐂 𝐔sᴇʀʙᴏᴛ 𝐇ᴇʟᴘ 𝐌ᴇɴᴜ** ✦\\n\\n"
-        "Select a separate plugin button below to view its commands.\\n\\n"
-        f"**Available Modules:** `{len(CMD_HELP)}`\\n"
-        "```\\n" + "\\n".join(lines) + "\\n```"
+        "✦ **𝐈𝐂𝐂 𝐔sᴇʀʙᴏᴛ 𝐇ᴇʟᴘ 𝐌ᴇɴᴜ** ✦\n\n"
+        "Select a separate plugin button below to view its commands.\n\n"
+        f"**Available Modules:** `{len(CMD_HELP)}`\n"
+        "```\n" + "\n".join(lines) + "\n```"
     )
 
 
