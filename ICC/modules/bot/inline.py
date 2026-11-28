@@ -69,14 +69,14 @@ async def alive_function(message: Message, answers):
                 msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True
             ),
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("𝐇ᴇʟᴘ", callback_data="helper")],
+                [InlineKeyboardButton("𝐇ᴇʟᴘ", url="https://t.me/govindofficialmp")],
                 [
-                    InlineKeyboardButton("𝐎ᴡɴᴇʀ", url=f"tg://user?id={OWNER_ID}") if OWNER_ID else InlineKeyboardButton("𝐎ᴡɴᴇʀ", url="https://t.me/GOVIND_USERBOT_UPDATE"),
+                    InlineKeyboardButton("𝐎ᴡɴᴇʀ", url=f"tg://user?id={OWNER_ID}") if OWNER_ID else InlineKeyboardButton("𝐎ᴡɴᴇʀ", url="https://t.me/govindofficialmp"),
                     InlineKeyboardButton("𝐑ᴇᴘᴏ", url=REPO_URL or "https://github.com/GOVIND-BOTS/Govinduserbot"),
                 ],
                 [
-                    InlineKeyboardButton("𝐒ᴜᴘᴘᴏʀᴛ 𝐆ʀᴏᴜᴘ", url="https://t.me/GOVIND_MP_USERBOT_SPPORT"),
-                    InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇ 𝐂ʜᴀɴɴᴇʟ", url="https://t.me/GOVIND_USERBOT_UPDATE"),
+                    InlineKeyboardButton("𝐒ᴜᴘᴘᴏʀᴛ 𝐆ʀᴏᴜᴘ", url="https://t.me/GOVIND_BOTS"),
+                    InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇ 𝐂ʜᴀɴɴᴇʟ", url="https://t.me/govindofficialmp"),
                 ],
             ]),
         )
@@ -85,29 +85,19 @@ async def alive_function(message: Message, answers):
 
 
 async def help_function(answers):
-    bttn = paginate_help(0, CMD_HELP, "helpme")
-    bttn.append((
-        InlineKeyboardButton("OWNER", url=f"tg://user?id={OWNER_ID}") if OWNER_ID else InlineKeyboardButton("OWNER", url="https://t.me/GOVIND_USERBOT_UPDATE"),
-        InlineKeyboardButton("SUPPORT", url="https://t.me/GOVIND_MP_USERBOT_SPPORT"),
-        InlineKeyboardButton("UPDATES", url="https://t.me/GOVIND_USERBOT_UPDATE"),
-    ))
+    from ICC.modules.help.help import _help_keyboard
     answers.append(
         InlineQueryResultPhoto(
             photo_url="https://telegra.ph/file/cc0890d0876bc18c19e05.jpg",
             thumb_url="https://telegra.ph/file/cc0890d0876bc18c19e05.jpg",
             title="ICC Help Menu",
-            description="Choose a module to view its commands",
-            caption=(
-                "<b>ICC USERBOT HELP MENU</b>\n"
-                "<i>Select any module button below to see its commands.</i>\n\n"
-                f"<b>Total Modules:</b> <code>{len(CMD_HELP)}</code>"
-            ),
+            description="Choose a plugin button to view its commands",
+            caption=f"<b>✦ ICC USERBOT HELP MENU ✦</b>\n\n<b>Available Modules:</b> <code>{len(CMD_HELP)}</code>\nChoose a plugin below.",
             parse_mode=ParseMode.HTML,
-            reply_markup=InlineKeyboardMarkup(bttn),
+            reply_markup=_help_keyboard(0),
         )
     )
     return answers
-
 
 @app.on_inline_query()
 @inline_wrapper
