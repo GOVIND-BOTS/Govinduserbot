@@ -92,7 +92,7 @@ async def help_function(answers):
             thumb_url="https://telegra.ph/file/cc0890d0876bc18c19e05.jpg",
             title="ICC Help Menu",
             description="Choose a plugin button to view its commands",
-            caption=f"<b>✦ ICC USERBOT HELP MENU ✦</b>\\n\\n<b>Available Modules:</b> <code>{len(CMD_HELP)}</code>\\nChoose a plugin below.",
+            caption=f"<b>✦ ICC USERBOT HELP MENU ✦</b>\n\n<b>Available Modules:</b> <code>{len(CMD_HELP)}</code>\nChoose a plugin below.",
             parse_mode=ParseMode.HTML,
             reply_markup=_help_keyboard(0),
         )
