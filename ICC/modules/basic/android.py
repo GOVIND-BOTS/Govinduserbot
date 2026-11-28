@@ -102,21 +102,6 @@ async def android_codename(_, message):
         await message.edit(f"Codename lookup failed: `{exc}`")
 
 
-@Client.on_message(filters.command(["id", "getid"], ".") & filters.me)
-async def get_ids(_, message):
-    reply = message.reply_to_message
-    lines = [f"**Chat ID:** `{message.chat.id}`"]
-    if reply:
-        if reply.from_user:
-            lines.append(f"**User ID:** `{reply.from_user.id}`")
-        elif reply.sender_chat:
-            lines.append(f"**Sender chat ID:** `{reply.sender_chat.id}`")
-        media = reply.document or reply.photo or reply.video or reply.audio or reply.voice or reply.sticker
-        if media:
-            lines.append(f"**Media file ID:** `{media.file_id}`")
-            lines.append(f"**File unique ID:** `{media.file_unique_id}`")
-    await message.edit("\\n".join(lines))
-
 
 add_command_help(
     "android",
@@ -124,6 +109,5 @@ add_command_help(
         [".magisk", "Get latest Magisk stable, beta and canary releases."],
         [".device <codename>", "Look up certified Android devices by codename."],
         [".codename <brand> <device>", "Find an Android device codename."],
-        [".id", "Show the current chat ID; reply to include user and media IDs."],
     ],
 )
