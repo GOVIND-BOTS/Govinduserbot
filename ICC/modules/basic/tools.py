@@ -183,12 +183,15 @@ async def xkcd_comic(client: Client, message: Message):
         await status.edit_text(f"**XKCD error:** `{str(exc)[:300]}`")
 
 
-add_command_help("tools", [
-    [".cur <amount> <FROM> <TO>", "Convert currency using the latest available reference rate."],
-    [".ip <IP/domain>", "Look up public IP/hostname network and location information."],
-    [".ifsc <code>", "Look up Indian bank branch details from an IFSC code."],
-    [".makeqr <text>", "Generate a QR code image from text or a URL."],
-    [".color <HEX>", "Show RGB and decimal values for a hexadecimal color."],
-    [".barcode <text>", "Generate a Code 128 barcode image."],
-    [".xkcd [number]", "Show the latest XKCD comic or a comic by number."]
-])
+add_command_help(
+    "tools",
+    [
+        [".cur <amount> <FROM> <TO>", "Convert currency using the latest available reference rate."],
+        [".ip <IP/domain>", "Look up public IP/hostname network and location information."],
+        [".ifsc <code>", "Look up Indian bank branch details from an IFSC code."],
+        [".makeqr <text>", "Generate a QR code image from text or a URL."],
+        [".color <HEX>", "Show RGB and decimal values for a hexadecimal color."],
+        [".barcode <text>", "Generate a Code 128 barcode image."],
+        [".xkcd [number]", "Show the latest XKCD comic or a comic by number."],
+    ],
+)
