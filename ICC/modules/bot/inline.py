@@ -21,7 +21,7 @@ from pyrogram.types import (
 
 from ICC import CMD_HELP, StartTime, app
 from ICC.helper.data import Data
-from config import OWNER_ID, REPO_URL
+from config import OWNER_ID, REPO_URL, ALIVE_PIC
 from ICC.helper.inline import inline_wrapper, paginate_help
 
 async def get_readable_time(seconds: int) -> str:
@@ -61,13 +61,14 @@ async def alive_function(message: Message, answers):
 <b>└• 𝐒ᴛᴀᴛᴜs:</b> <code>Online</code>
 """
     answers.append(
-        InlineQueryResultArticle(
+        InlineQueryResultPhoto(
+            photo_url=ALIVE_PIC or "https://telegra.ph/file/cc0890d0876bc18c19e05.jpg",
+            thumb_url=ALIVE_PIC or "https://telegra.ph/file/cc0890d0876bc18c19e05.jpg",
             title="Alive",
             description="Check Bot's Stats",
             thumb_url="https://telegra.ph/file/cc0890d0876bc18c19e05.jpg",
-            input_message_content=InputTextMessageContent(
-                msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True
-            ),
+            caption=msg,
+            parse_mode=ParseMode.HTML,
             reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton("𝐇ᴇʟᴘ", url="https://t.me/govindofficialmp")],
                 [
