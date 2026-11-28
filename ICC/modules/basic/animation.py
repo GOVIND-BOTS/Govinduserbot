@@ -1607,6 +1607,70 @@ async def squ_animation(client: Client, message: Message):
 
 
 
+# Harmless fun commands ported from the supplied Telethon snippet.
+@Client.on_message(filters.command("join", ".") & filters.me)
+async def join_fun(client: Client, message: Message):
+    await edit_or_reply(message, "━━━━━┓\n┓┓┓┓┓┃\n┓┓┓┓┓┃  ヽ○ノ  Welcome aboard!\n┓┓┓┓┓┃    /\n┓┓┓┓┓┃   ノ)")
+
+@Client.on_message(filters.command("pay", ".") & filters.me)
+async def pay_fun(client: Client, message: Message):
+    await edit_or_reply(message, "█▀▀▀▀▀█░▀▀░░░█░░░░█▀▀▀▀▀█\n█░███░█░█▄░█▀▀░▄▄░█░███░█\n█░▀▀▀░█░▀█▀▀▄▀█▀▀░█░▀▀▀░█\n▀▀▀▀▀▀▀░▀▄▀▄▀▄█▄▀░▀▀▀▀▀▀▀")
+
+@Client.on_message(filters.command("climb", ".") & filters.me)
+async def climb_fun(client: Client, message: Message):
+    await _play_icc_animation(message, ["😏", "😏 ⬆️", "😏 ⬆️⬆️", "😎 Made it to the top!"], delay=0.7)
+
+@Client.on_message(filters.command("aag", ".") & filters.me)
+async def aag_fun(client: Client, message: Message):
+    await _play_icc_animation(message, ["😲💨", "😲💨 🔥", "😲💨 🔥🔥", "😎 Fire mode ON! (just art)"], delay=0.7)
+
+@Client.on_message(filters.command("push", ".") & filters.me)
+async def push_fun(client: Client, message: Message):
+    await _play_icc_animation(message, ["😎 Ready?", "😎 👉", "━━━━━┓\n┓┓┓┓┓┃ ヽ😩ノ", "😂 Push complete!"], delay=0.8)
+
+@Client.on_message(filters.command("work", ".") & filters.me)
+async def work_fun(client: Client, message: Message):
+    await _play_icc_animation(message, ["📚 Opening books...", "📔📚📖 😫 📚📚", "📕📚📚 📝 💻📘", "☕ Break time! 😂"], delay=0.8)
+
+@Client.on_message(filters.command("ohh", ".") & filters.me)
+async def ohh_fun(client: Client, message: Message):
+    await edit_or_reply(message, "´´´´´████████´´\n´´´███▒●▒▒●▒██´´´\n´´´███▒▒👄▒▒██´´\n´´█████▒▒████´´")
+
+@Client.on_message(filters.command("lovestory", ".") & filters.me)
+async def lovestory_fun(client: Client, message: Message):
+    await _play_icc_animation(message, ["❤️ A tiny love story", "😐      😕\n👕      👗\n👖      /|", "😉      😊\n👕      👗\n👖      /|", "😍      😍\n💐 The End 😂❤️"], delay=1.0)
+
+@Client.on_message(filters.command("bf", ".") & filters.me)
+async def bf_fun(client: Client, message: Message):
+    parts = message.text.split(maxsplit=1)
+    arg = parts[1][:30] if len(parts) > 1 else "F"
+    art = "\n".join(arg * max(round(n / len(arg)), 1) for n in [5, 1, 1, 4, 1, 1, 1])
+    await edit_or_reply(message, art)
+
+@Client.on_message(filters.command("session", ".") & filters.me)
+async def session_fun(client: Client, message: Message):
+    await _play_icc_animation(message, ["🖥️ SESSION STATUS SIMULATOR", "Checking imaginary connection...", "⚠️ AuthKeyDuplicatedError", "Demo only: no session was checked or changed."], delay=0.9)
+
+@Client.on_message(filters.command("ftext", ".") & filters.me)
+async def ftext_fun(client: Client, message: Message):
+    parts = message.text.split(maxsplit=1)
+    value = parts[1][:24] if len(parts) > 1 else "F"
+    art = "\n".join([value * 8, value * 8, value * 2, value * 2, value * 2, value * 6, value * 6, value * 2])
+    await edit_or_reply(message, art)
+
+@Client.on_message(filters.command("cat", ".") & filters.me)
+async def cat_fun(client: Client, message: Message):
+    await edit_or_reply(message, random.choice(["(=^･ω･^=)", "(=｀ω´=)", "ฅ^•ﻌ•^ฅ"]))
+
+@Client.on_message(filters.command("why", ".") & filters.me)
+async def why_fun(client: Client, message: Message):
+    await edit_or_reply(message, random.choice(["Why is Monday faster than Sunday? 😂", "Why does Wi-Fi fail during important calls? 🤔", "Why is sleep best near alarm time? 😴"]))
+
+@Client.on_message(filters.command("fact", ".") & filters.me)
+async def fact_fun(client: Client, message: Message):
+    await edit_or_reply(message, random.choice(["Octopuses have three hearts. 🐙", "A day on Venus is longer than its year. 🪐", "Bananas are berries botanically. 🍌"]))
+
+
 add_command_help(
     "animation",
     [
@@ -1693,5 +1757,19 @@ add_command_help(
         ["virus", "Play a pretend virus-scan animation."],
         ["music", "Play a pretend music-player animation."],
         ["squ", "Play a loading-bar animation."],
+        ["join", "Display a funny welcome ASCII animation."],
+        ["pay", "Display payment-style ASCII art."],
+        ["climb", "Play a tiny climbing animation."],
+        ["aag", "Play a harmless fire animation."],
+        ["push", "Play a funny pushing animation."],
+        ["work", "Play a work-and-break animation."],
+        ["ohh", "Display funny ASCII art."],
+        ["lovestory", "Play a wholesome mini love-story animation."],
+        ["bf [text]", "Render text in a block pattern."],
+        ["session", "Show a fictional session-error demo."],
+        ["ftext [text]", "Render text in a repeated pattern."],
+        ["cat", "Show random cat text art."],
+        ["why", "Show a random funny question."],
+        ["fact", "Show a random fun fact."],
     ],
 )
