@@ -13,19 +13,16 @@ from ICC.modules.bot.inline import get_readable_time
 
 alive_logo = ALIVE_PIC or "https://telegra.ph/file/cc0890d0876bc18c19e05.jpg"
 
-if ALIVE_TEXT:
-   txt = ALIVE_TEXT
-else:
-    txt = (
-        f"** ✘ zαι∂ υѕєявσт ✘**\n\n"
-        f"❏ **νєяѕισи**: `2.1`\n"
-        f"├• **υρтιмє**: `{str(datetime.now() - START_TIME).split('.')[0]}`\n"
-        f"├• **ρутнσи**: `{python_version()}`\n"
-        f"├• **ρуяσgяαм**: `{__version__}`\n"
-        f"├• **ѕυρρσят**: [Click](t.me/TheSupportChat)\n"
-        f"├• **¢нαииєℓ**: [Click](t.me/TheUpdatesChannel)\n"
-        f"└• **яєρσ**: [Click](https://GitHub.com/itz-icc/ICC-Userbot)"        
-    )
+txt = (
+    "**✦ GOVIND USERBOT ✦**\n\n"
+    "❏ **Version:** `2.1`\n"
+    f"├• **Uptime:** `{str(datetime.now() - START_TIME).split('.')[0]}`\n"
+    f"├• **Python:** `{python_version()}`\n"
+    f"├• **Pyrogram:** `{__version__}`\n"
+    "├• **Support:** [Click](https://t.me/GOVIND_MP_USERBOT_SPPORT)\n"
+    "├• **Channel:** [Click](https://t.me/GOVIND_USERBOT_UPDATE)\n"
+    "└• **Repo:** [Click](https://github.com/GOVIND-BOTS/Govinduserbot)"
+)
 
 @Client.on_message(
     filters.command(["alive", "awake"], ".") & (filters.me | filters.user(SUDO_USER))
