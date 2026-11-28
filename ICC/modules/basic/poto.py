@@ -1,6 +1,6 @@
 """Fetch profile photos for a user or chat.
 
-Feature concept adapted from LEGENDBOT profile-photo plugin (GPL-3.0).
+ICC USERBOT module.
 """
 import os
 import tempfile
