@@ -1,6 +1,6 @@
 """Extract text from a replied image using OCR.Space.
 
-Feature concept adapted from LEGENDBOT OCR plugin (GPL-3.0).
+ICC USERBOT module.
 Set OCR_SPACE_API_KEY for a personal API key; the public demo key is rate-limited.
 """
 import asyncio
