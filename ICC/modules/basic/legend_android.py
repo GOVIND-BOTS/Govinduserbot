@@ -1,4 +1,4 @@
-"""Android device lookup utilities, adapted from LEGENDBOT (GPL-3.0)."""
+
 
 import aiohttp
 
