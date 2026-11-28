@@ -38,9 +38,9 @@ def _help_keyboard(page=0):
 
 def _help_menu_text():
     return (
-        "✦ **𝐈𝐂𝐂 𝐔sᴇʀʙᴏᴛ 𝐇ᴇʟᴘ 𝐌ᴇɴᴜ** ✦\\n\\n"
-        "Select any plugin button below to view its commands and description.\\n\\n"
-        f"**Available Modules:** `{len(CMD_HELP)}\`"
+        "✦ **𝐈𝐂𝐂 𝐔sᴇʀʙᴏᴛ 𝐇ᴇʟᴘ 𝐌ᴇɴᴜ** ✦\n\n"
+        "Select any plugin button below to view its commands and description.\n\n"
+        f"**Available Modules:** `{len(CMD_HELP)}`"
     )
 
 
@@ -51,9 +51,9 @@ async def edit_or_reply(message: Message, *args, **kwargs) -> Message:
 
 async def _show_module(message, module):
     commands = CMD_HELP.get(module, {})
-    body = f"──「 **𝐇ᴇʟᴘ ғᴏʀ {module.upper()}** 」──\\n\\n"
+    body = f"──「 **𝐇ᴇʟᴘ ғᴏʀ {module.upper()}** 」──\n\n"
     for command, description in commands.items():
-        body += f"• **Command:** \`{command}\`\\n• **Function:** \`{description}\`\\n\\n"
+        body += f"• **Command:** `{command}`\n• **Function:** `{description}`\n\n"
     body += "© @GOVIND_MP_USERBOT_SPPORT"
     await edit_or_reply(
         message, body, parse_mode=enums.ParseMode.MARKDOWN,
@@ -71,7 +71,7 @@ async def module_help(client: Client, message: Message):
         return await edit_or_reply(message, _help_menu_text(), reply_markup=_help_keyboard(0))
     module = next((name for name in CMD_HELP if name.lower() == help_arg.lower()), None)
     if not module:
-        return await edit_or_reply(message, f"\`{help_arg}\` **𝐍ᴏᴛ ᴀ 𝐕ᴀʟɪᴅ 𝐌ᴏᴅᴜʟᴇ 𝐍ᴀᴍᴇ.**")
+        return await edit_or_reply(message, f"`{help_arg}` **𝐍ᴏᴛ ᴀ 𝐕ᴀʟɪᴅ 𝐌ᴏᴅᴜʟᴇ 𝐍ᴀᴍᴇ.**")
     await _show_module(message, module)
 
 
@@ -82,7 +82,7 @@ async def module_helper(client: Client, message: Message):
         return await edit_or_reply(message, _help_menu_text(), reply_markup=_help_keyboard(0))
     module = next((name for name in CMD_HELP if name.lower() == help_arg.lower()), None)
     if not module:
-        return await edit_or_reply(message, f"\`{help_arg}\` **𝐍ᴏᴛ ᴀ 𝐕ᴀʟɪᴅ 𝐌ᴏᴅᴜʟᴇ 𝐍ᴀᴍᴇ.**")
+        return await edit_or_reply(message, f"`{help_arg}` **𝐍ᴏᴛ ᴀ 𝐕ᴀʟɪᴅ 𝐌ᴏᴅᴜʟᴇ 𝐍ᴀᴍᴇ.**")
     await _show_module(message, module)
 
 
@@ -106,9 +106,9 @@ async def help_menu_callback(client, callback_query):
     if module not in CMD_HELP:
         return await callback_query.answer("Module not found.", show_alert=True)
     commands = CMD_HELP.get(module, {})
-    body = f"──「 **𝐇ᴇʟᴘ ғᴏʀ {module.upper()}** 」──\\n\\n"
+    body = f"──「 **𝐇ᴇʟᴘ ғᴏʀ {module.upper()}** 」──\n\n"
     for command, description in commands.items():
-        body += f"• **Command:** \`{command}\`\\n• **Function:** \`{description}\`\\n\\n"
+        body += f"• **Command:** `{command}`\n• **Function:** `{description}`\n\n"
     body += "© @GOVIND_MP_USERBOT_SPPORT"
     await callback_query.message.edit_text(
         body, parse_mode=enums.ParseMode.MARKDOWN,
