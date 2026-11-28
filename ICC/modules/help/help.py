@@ -4,6 +4,7 @@ from pyrogram import Client, enums, filters
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 
 from ICC import app, CMD_HELP, ids
+from config import OWNER_ID
 from ICC.helper.PyroHelpers import ReplyCheck
 
 
@@ -29,10 +30,11 @@ def _help_keyboard(page=0):
         nav.append(InlineKeyboardButton("NEXT ›", callback_data=f"help_page:{page+1}"))
     rows.append(nav)
     rows.append([
+        InlineKeyboardButton("OWNER", url=f"tg://user?id={OWNER_ID}") if OWNER_ID else InlineKeyboardButton("OWNER", url="https://t.me/GOVIND_USERBOT_UPDATE"),
         InlineKeyboardButton("SUPPORT", url="https://t.me/GOVIND_MP_USERBOT_SPPORT"),
         InlineKeyboardButton("UPDATES", url="https://t.me/GOVIND_USERBOT_UPDATE"),
-        InlineKeyboardButton("CLOSE", callback_data="help_close"),
     ])
+    rows.append([InlineKeyboardButton("CLOSE", callback_data="help_close")])
     return InlineKeyboardMarkup(rows)
 
 
@@ -59,6 +61,7 @@ async def _show_module(message, module):
         message, body, parse_mode=enums.ParseMode.MARKDOWN,
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton("‹ BACK TO HELP", callback_data="help_page:0"),
+            InlineKeyboardButton("OWNER", url=f"tg://user?id={OWNER_ID}") if OWNER_ID else InlineKeyboardButton("OWNER", url="https://t.me/GOVIND_USERBOT_UPDATE"),
             InlineKeyboardButton("CLOSE", callback_data="help_close"),
         ]]),
     )
