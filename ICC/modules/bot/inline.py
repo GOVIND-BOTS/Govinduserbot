@@ -52,15 +52,13 @@ async def get_readable_time(seconds: int) -> str:
 async def alive_function(message: Message, answers):
     uptime = await get_readable_time((time.time() - StartTime))
     msg = f"""
-<b> — Hey, I am alive.</b>
+<b>✦ 𝐈𝐂𝐂 𝐔sᴇʀʙᴏᴛ ✦</b>
 
-<b> • User :</b> {message.from_user.mention}
-<b> • Plugins :</b> <code>{len(CMD_HELP)} Modules</code>
-<b> • Python Version :</b> <code>{pyver.split()[0]}</code>
-<b> • Pyrogram Version :</b> <code>{pyrover}</code>
-<b> • Bot Uptime :</b> <code>{uptime}</code>
-
-<b> — Bot version: 2.0</b>
+<b>❏ 𝐕ᴇʀsɪᴏɴ:</b> <code>2.1</code>
+<b>├• 𝐔ᴘᴛɪᴍᴇ:</b> <code>{uptime}</code>
+<b>├• 𝐏ʏᴛʜᴏɴ:</b> <code>{pyver.split()[0]}</code>
+<b>├• 𝐏ʏʀᴏɢʀᴀᴍ:</b> <code>{pyrover}</code>
+<b>└• 𝐒ᴛᴀᴛᴜs:</b> <code>Online</code>
 """
     answers.append(
         InlineQueryResultArticle(
