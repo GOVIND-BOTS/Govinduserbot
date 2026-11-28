@@ -1,6 +1,6 @@
 """Per-chat text snippets for ICC Userbot.
 
-Feature concept adapted from LEGENDBOT snips plugin (GPL-3.0).
+ICC USERBOT snippet module.
 """
 import os
 import re
