@@ -59,14 +59,14 @@ def _module_text(module):
     return body + "© @GOVIND_MP_USERBOT_SPPORT"
 
 
-async def _send_help(message, text, keyboard):
+async def _send_help(client, message, text, keyboard):
     assistant = await app.get_me()
     if not assistant.username:
         raise RuntimeError('Assistant bot must have a public username.')
-    results = await message._client.get_inline_bot_results(assistant.username, 'helper')
+    results = await client.get_inline_bot_results(assistant.username, 'helper')
     if not results.results:
         raise RuntimeError('Assistant bot returned no Help Menu result.')
-    return await message._client.send_inline_bot_result(
+    return await client.send_inline_bot_result(
         chat_id=message.chat.id,
         query_id=results.query_id,
         result_id=results.results[0].id,
@@ -78,11 +78,11 @@ async def module_help(client: Client, message: Message):
     help_arg = " ".join(message.command[1:]).strip() if len(message.command) > 1 else ""
     if not help_arg:
         try:
-            await _send_help(message, _help_menu_text(), _help_keyboard(0))
+            await _send_help(client, message, _help_menu_text(), _help_keyboard(0))
             await message.delete()
         except Exception as exc:
             await message.reply_text(
-                f"Enable assistant bot Inline Mode in @BotFather using /setinline, then retry.\\n\\nError: `{exc}`"
+                f"Enable assistant bot Inline Mode in @BotFather using /setinline, then retry.\n\nError: `{exc}`"
             )
         return
 
@@ -90,14 +90,14 @@ async def module_help(client: Client, message: Message):
     if not module:
         return await message.reply_text(f"`{help_arg}` **𝐍ᴏᴛ ᴀ 𝐕ᴀʟɪᴅ 𝐌ᴏᴅᴜʟᴇ 𝐍ᴀᴍᴇ.**")
     try:
-        await _send_help(message, _module_text(module), InlineKeyboardMarkup([[
+        await _send_help(client, message, _module_text(module), InlineKeyboardMarkup([[
             InlineKeyboardButton("‹ BACK TO HELP", callback_data="help_page:0"),
             _owner_button(),
             InlineKeyboardButton("𝐂ʟᴏsᴇ", callback_data="help_close"),
         ]]))
         await message.delete()
     except Exception as exc:
-        await message.reply_text(f"Enable assistant bot Inline Mode in @BotFather using /setinline, then retry.\\n\\nError: `{exc}`")
+        await message.reply_text(f"Enable assistant bot Inline Mode in @BotFather using /setinline, then retry.\n\nError: `{exc}`")
 
 
 @Client.on_message(filters.command(["plugins", "modules"], ".") & filters.me)
@@ -124,8 +124,8 @@ async def help_menu_callback(client, callback_query):
             page = int(data.split(":", 1)[1])
         except ValueError:
             page = 0
-        await callback_query.message.edit_text(
-            _help_menu_text(),
+        await callback_query.message.edit_caption(
+            caption=_help_menu_text(),
             parse_mode=enums.ParseMode.MARKDOWN,
             reply_markup=_help_keyboard(page),
         )
@@ -135,8 +135,8 @@ async def help_menu_callback(client, callback_query):
     if module not in CMD_HELP:
         return await callback_query.answer("Module not found.", show_alert=True)
 
-    await callback_query.message.edit_text(
-        _module_text(module),
+    await callback_query.message.edit_caption(
+        caption=_module_text(module),
         parse_mode=enums.ParseMode.MARKDOWN,
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton("‹ BACK TO HELP", callback_data="help_page:0"),
