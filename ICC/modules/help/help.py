@@ -40,7 +40,7 @@ def _help_menu_text():
     return (
         "✦ **𝐈𝐂𝐂 𝐔sᴇʀʙᴏᴛ 𝐇ᴇʟᴘ 𝐌ᴇɴᴜ** ✦\\n\\n"
         "Select any plugin button below to view its commands and description.\\n\\n"
-        f"**Available Modules:** \`{len(CMD_HELP)}\`"
+        f"**Available Modules:** `{len(CMD_HELP)}\`"
     )
 
 
@@ -68,15 +68,7 @@ async def _show_module(message, module):
 async def module_help(client: Client, message: Message):
     help_arg = " ".join(message.command[1:]).strip() if len(message.command) > 1 else ""
     if not help_arg:
-        try:
-            bot_username = (await app.get_me()).username
-            nice = await client.get_inline_bot_results(bot=bot_username, query="helper")
-            await message.delete()
-            await client.send_inline_bot_result(message.chat.id, nice.query_id, nice.results[0].id)
-            return
-        except Exception as error:
-            print(f"Inline help fallback: {error}")
-            return await edit_or_reply(message, _help_menu_text(), reply_markup=_help_keyboard(0))
+        return await edit_or_reply(message, _help_menu_text(), reply_markup=_help_keyboard(0))
     module = next((name for name in CMD_HELP if name.lower() == help_arg.lower()), None)
     if not module:
         return await edit_or_reply(message, f"\`{help_arg}\` **𝐍ᴏᴛ ᴀ 𝐕ᴀʟɪᴅ 𝐌ᴏᴅᴜʟᴇ 𝐍ᴀᴍᴇ.**")
