@@ -70,6 +70,67 @@ def _module_text(module):
     return body + "━━━━━━━━━━━━━━━━━━\n© **GOVIND-BOTS**"
 
 
+
+
+def _normalize(value):
+    return str(value).strip().lower().lstrip(".").replace("_", "").replace("-", "").replace(" ", "")
+
+
+def _command_matches(label, query):
+    label_text = str(label).lower().lstrip(".")
+    candidates = [label_text.split()[0]]
+    if " or " in label_text:
+        candidates.extend(part.strip().split()[0] for part in label_text.split(" or "))
+    wanted = _normalize(query)
+    return any(_normalize(candidate) == wanted for candidate in candidates)
+
+
+def _find_command(query):
+    matches = []
+    for module, commands in CMD_HELP.items():
+        for command, description in commands.items():
+            if _command_matches(command, query):
+                matches.append((module, command, description))
+    return matches
+
+
+def _search_help(query, limit=15):
+    needle = _normalize(query)
+    results = []
+    for module, commands in CMD_HELP.items():
+        if needle in _normalize(module):
+            results.append((module, None, None))
+        for command, description in commands.items():
+            if needle in _normalize(command) or needle in _normalize(description):
+                results.append((module, command, description))
+            if len(results) >= limit:
+                return results
+    return results[:limit]
+
+
+def _command_text(module, command, description):
+    return (
+        f"✦ **ICC USERBOT | {module.upper()}** ✦\n"
+        "━━━━━━━━━━━━━━━━━━\n\n"
+        f"**Command:** {command}\n"
+        f"**Description:** {description}\n\n"
+        f"Use .help {module} to view all commands in this module.\n"
+        "━━━━━━━━━━━━━━━━━━\n© **GOVIND-BOTS**"
+    )
+
+
+def _search_text(query, results):
+    body = f"🔎 **HELP SEARCH: {query}**\n━━━━━━━━━━━━━━━━━━\n\n"
+    if not results:
+        return body + "No matching modules or commands found."
+    for module, command, description in results:
+        if command is None:
+            body += f"**Module:** {module} — use .help {module}\n"
+        else:
+            body += f"**{module}** · {command}\n{description}\n\n"
+    return body + "\nUse .help <module> to open the complete module help."
+
+
 async def _send_help(client, message):
     assistant = await app.get_me()
     if not assistant.username:
@@ -94,32 +155,63 @@ async def module_help(client: Client, message: Message):
             await message.delete()
         except Exception as exc:
             await message.reply_text(
-                f"Enable assistant bot Inline Mode in @BotFather using /setinline, then retry.\n\nError: `{exc}`"
+                f"Enable assistant bot Inline Mode in @BotFather using /setinline, then retry.\n\nError: {exc}"
             )
         return
 
-    module = next((name for name in CMD_HELP if name.lower() == help_arg.lower()), None)
-    if not module:
-        return await message.reply_text(f"`{help_arg}` **is not a valid module name.**")
     try:
+        if help_arg.lower().startswith("search "):
+            query = help_arg[7:].strip()
+            if not query:
+                return await message.reply_text("Usage: .help search <word>")
+            text = _search_text(query, _search_help(query))
+            sent = await _send_help(client, message)
+            await _edit_help_message(sent, text, _detail_keyboard())
+            await message.delete()
+            return
+
+        module = next((name for name in CMD_HELP if _normalize(name) == _normalize(help_arg)), None)
+        if module:
+            sent = await _send_help(client, message)
+            await _edit_help_message(sent, _module_text(module), _detail_keyboard())
+            await message.delete()
+            return
+
+        matches = _find_command(help_arg)
+        if len(matches) == 1:
+            module, command, description = matches[0]
+            text = _command_text(module, command, description)
+        elif matches:
+            text = _search_text(help_arg, matches)
+        else:
+            results = _search_help(help_arg)
+            if not results:
+                return await message.reply_text(
+                    f"{help_arg} was not found in Help.\n"
+                    "Try .help for modules or .help search <word>."
+                )
+            text = _search_text(help_arg, results)
+
         sent = await _send_help(client, message)
-        detail_keyboard = InlineKeyboardMarkup([[
-            InlineKeyboardButton("‹ BACK TO HELP", callback_data="help_open"),
-            _owner_button(),
-            InlineKeyboardButton("CLOSE", callback_data="help_close"),
-        ]])
-        await _edit_help_message(sent, _module_text(module), detail_keyboard)
+        await _edit_help_message(sent, text, _detail_keyboard())
         await message.delete()
     except Exception as exc:
         await message.reply_text(
-            f"Enable assistant bot Inline Mode in @BotFather using /setinline, then retry.\\n\\nError: `{exc}`"
+            f"Help menu error: {str(exc)[:250]}\n"
+            "Check that assistant bot Inline Mode is enabled in @BotFather."
         )
-
 
 @Client.on_message(filters.command(["plugins", "modules"], ".") & filters.me)
 async def module_helper(client: Client, message: Message):
     return await module_help(client, message)
 
+
+def _detail_keyboard():
+    return InlineKeyboardMarkup([[
+        InlineKeyboardButton("‹ BACK TO HELP", callback_data="help_open"),
+        _owner_button(),
+        InlineKeyboardButton("CLOSE", callback_data="help_close"),
+    ]])
 
 async def _edit_help_message(message, text, keyboard):
     if message.photo:
