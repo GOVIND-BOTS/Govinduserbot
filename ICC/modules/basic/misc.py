@@ -24,12 +24,12 @@ txt = (
 
 alive_buttons = InlineKeyboardMarkup([
     [
-        InlineKeyboardButton("𝐎ᴡɴᴇʀ", url=f"tg://user?id={OWNER_ID}") if OWNER_ID else InlineKeyboardButton("𝐎ᴡɴᴇʀ", url="https://t.me/GOVIND_USERBOT_UPDATE"),
+        InlineKeyboardButton("𝐎ᴡɴᴇʀ", url=f"tg://user?id={OWNER_ID}") if OWNER_ID else InlineKeyboardButton("𝐎ᴡɴᴇʀ", url="https://t.me/govindofficialmp"),
         InlineKeyboardButton("𝐑ᴇᴘᴏ", url=REPO_URL or "https://github.com/GOVIND-BOTS/Govinduserbot"),
     ],
     [
-        InlineKeyboardButton("𝐒ᴜᴘᴘᴏʀᴛ 𝐆ʀᴏᴜᴘ", url="https://t.me/GOVIND_MP_USERBOT_SPPORT"),
-        InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇ 𝐂ʜᴀɴɴᴇʟ", url="https://t.me/GOVIND_USERBOT_UPDATE"),
+        InlineKeyboardButton("𝐒ᴜᴘᴘᴏʀᴛ 𝐆ʀᴏᴜᴘ", url="https://t.me/GOVIND_BOTS"),
+        InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇ 𝐂ʜᴀɴɴᴇʟ", url="https://t.me/govindofficialmp"),
     ],
 ])
 
