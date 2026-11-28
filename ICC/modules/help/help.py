@@ -39,10 +39,23 @@ def _help_keyboard(page=0):
 
 
 def _help_menu_text():
+    modules = sorted(CMD_HELP, key=str.lower)
+    width = max([len(name) for name in modules] + [10])
+    width = min(max(width, 10), 16)
+    lines = [
+        "| " + "𝐈𝐂𝐂 𝐔sᴇʀʙᴏᴛ 𝐏ʟᴜɢɪɴs".center(width * 2 + 3) + " |",
+        "+" + "-" * (width + 2) + "+" + "-" * (width + 2) + "+",
+    ]
+    for index in range(0, len(modules), 2):
+        left = modules[index]
+        right = modules[index + 1] if index + 1 < len(modules) else ""
+        lines.append(f"| {left:<{width}} | {right:<{width}} |")
+    lines.append("+" + "-" * (width + 2) + "+" + "-" * (width + 2) + "+")
     return (
-        "✦ **𝐈𝐂𝐂 𝐔sᴇʀʙᴏᴛ 𝐇ᴇʟᴘ 𝐌ᴇɴᴜ** ✦\n\n"
-        "Select any plugin button below to view its commands and description.\n\n"
-        f"**Available Modules:** `{len(CMD_HELP)}`"
+        "✦ **𝐈𝐂𝐂 𝐔sᴇʀʙᴏᴛ 𝐇ᴇʟᴘ 𝐌ᴇɴᴜ** ✦\\n\\n"
+        "Select a separate plugin button below to view its commands.\\n\\n"
+        f"**Available Modules:** `{len(CMD_HELP)}`\\n"
+        "```\\n" + "\\n".join(lines) + "\\n```"
     )
 
 
