@@ -1,6 +1,6 @@
 """Summarize recent media in a chat.
 
-Feature concept adapted from LEGENDBOT file-summary plugin (GPL-3.0).
+ICC USERBOT module.
 """
 from collections import Counter
 
