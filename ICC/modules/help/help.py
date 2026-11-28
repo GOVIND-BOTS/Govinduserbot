@@ -1,5 +1,3 @@
-import asyncio
-
 from pyrogram import Client, enums, filters
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -29,6 +27,7 @@ def _help_keyboard(page=0):
             right = current[index + 1]
             row.append(InlineKeyboardButton(f"✦ {right.upper()}", callback_data=f"help_module:{right}"))
         rows.append(row)
+
     nav = []
     if page > 0:
         nav.append(InlineKeyboardButton("‹ PREVIOUS", callback_data=f"help_page:{page-1}"))
@@ -49,29 +48,25 @@ def _help_menu_text():
     return (
         "✦ **𝐈𝐂𝐂 𝐔sᴇʀʙᴏᴛ 𝐇ᴇʟᴘ 𝐌ᴇɴᴜ** ✦\n\n"
         f"**Available Modules:** `{len(CMD_HELP)}`\n"
-        "Choose a plugin from the buttons below to view its commands.\n\n"
-        "Use **NEXT** to see more plugins."
+        "Choose a plugin from the buttons below to view its commands."
     )
 
 
-async def edit_or_reply(message: Message, *args, **kwargs) -> Message:
-    target = message.edit_text if bool(message.from_user and message.from_user.is_self or message.outgoing) else (message.reply_to_message or message).reply_text
-    return await target(*args, **kwargs)
-
-
-async def _show_module(message, module):
-    commands = CMD_HELP.get(module, {})
+def _module_text(module):
     body = f"──「 **𝐇ᴇʟᴘ ғᴏʀ {module.upper()}** 」──\n\n"
-    for command, description in commands.items():
+    for command, description in CMD_HELP.get(module, {}).items():
         body += f"• **Command:** `{command}`\n• **Function:** `{description}`\n\n"
-    body += "© @GOVIND_MP_USERBOT_SPPORT"
-    await edit_or_reply(
-        message, body, parse_mode=enums.ParseMode.MARKDOWN,
-        reply_markup=InlineKeyboardMarkup([[
-            InlineKeyboardButton("‹ BACK TO HELP", callback_data="help_page:0"),
-            _owner_button(),
-            InlineKeyboardButton("𝐂ʟᴏsᴇ", callback_data="help_close"),
-        ]]),
+    return body + "© @GOVIND_MP_USERBOT_SPPORT"
+
+
+async def _send_help(message, text, keyboard):
+    # The assistant bot sends the message so Telegram can display inline keyboards.
+    return await app.send_message(
+        chat_id=message.chat.id,
+        text=text,
+        parse_mode=enums.ParseMode.MARKDOWN,
+        reply_markup=keyboard,
+        reply_to_message_id=ReplyCheck(message),
     )
 
 
@@ -79,50 +74,67 @@ async def _show_module(message, module):
 async def module_help(client: Client, message: Message):
     help_arg = " ".join(message.command[1:]).strip() if len(message.command) > 1 else ""
     if not help_arg:
-        return await edit_or_reply(message, _help_menu_text(), reply_markup=_help_keyboard(0))
+        try:
+            await _send_help(message, _help_menu_text(), _help_keyboard(0))
+            await message.delete()
+        except Exception as exc:
+            await message.reply_text(
+                f"Please start the assistant bot first, then try again.\\n\\nError: `{exc}`"
+            )
+        return
+
     module = next((name for name in CMD_HELP if name.lower() == help_arg.lower()), None)
     if not module:
-        return await edit_or_reply(message, f"`{help_arg}` **𝐍ᴏᴛ ᴀ 𝐕ᴀʟɪᴅ 𝐌ᴏᴅᴜʟᴇ 𝐍ᴀᴍᴇ.**")
-    await _show_module(message, module)
+        return await message.reply_text(f"`{help_arg}` **𝐍ᴏᴛ ᴀ 𝐕ᴀʟɪᴅ 𝐌ᴏᴅᴜʟᴇ 𝐍ᴀᴍᴇ.**")
+    try:
+        await _send_help(message, _module_text(module), InlineKeyboardMarkup([[
+            InlineKeyboardButton("‹ BACK TO HELP", callback_data="help_page:0"),
+            _owner_button(),
+            InlineKeyboardButton("𝐂ʟᴏsᴇ", callback_data="help_close"),
+        ]]))
+        await message.delete()
+    except Exception as exc:
+        await message.reply_text(f"Assistant bot could not send the menu. Start it first.\\n\\nError: `{exc}`")
 
 
 @Client.on_message(filters.command(["plugins", "modules"], ".") & filters.me)
 async def module_helper(client: Client, message: Message):
-    help_arg = " ".join(message.command[1:]).strip() if len(message.command) > 1 else ""
-    if not help_arg:
-        return await edit_or_reply(message, _help_menu_text(), reply_markup=_help_keyboard(0))
-    module = next((name for name in CMD_HELP if name.lower() == help_arg.lower()), None)
-    if not module:
-        return await edit_or_reply(message, f"`{help_arg}` **𝐍ᴏᴛ ᴀ 𝐕ᴀʟɪᴅ 𝐌ᴏᴅᴜʟᴇ 𝐍ᴀᴍᴇ.**")
-    await _show_module(message, module)
+    return await module_help(client, message)
 
 
-@Client.on_callback_query(filters.regex(r"^help_(module|page):|^help_close$"))
+@app.on_callback_query(filters.regex(r"^help_(module|page):|^help_close$"))
 async def help_menu_callback(client, callback_query):
     user = callback_query.from_user
-    if not user or not (user.is_self or user.id in ids):
+    allowed = set(ids)
+    if OWNER_ID:
+        allowed.add(OWNER_ID)
+    if not user or (user.id not in allowed and not user.is_self):
         return await callback_query.answer("This help menu is for the userbot owner.", show_alert=True)
+
     data = callback_query.data
     if data == "help_close":
         await callback_query.message.delete()
         return await callback_query.answer("Help menu closed.")
+
     if data.startswith("help_page:"):
         try:
             page = int(data.split(":", 1)[1])
         except ValueError:
             page = 0
-        await callback_query.message.edit_text(_help_menu_text(), reply_markup=_help_keyboard(page))
+        await callback_query.message.edit_text(
+            _help_menu_text(),
+            parse_mode=enums.ParseMode.MARKDOWN,
+            reply_markup=_help_keyboard(page),
+        )
         return await callback_query.answer()
+
     module = data.split(":", 1)[1]
     if module not in CMD_HELP:
         return await callback_query.answer("Module not found.", show_alert=True)
-    commands = CMD_HELP.get(module, {})
-    body = f"──「 **𝐇ᴇʟᴘ ғᴏʀ {module.upper()}** 」──\n\n"
-    for command, description in commands.items():
-        body += f"• **Command:** `{command}`\n• **Function:** `{description}`\n\n"
-    body += "© @GOVIND_MP_USERBOT_SPPORT"
+
     await callback_query.message.edit_text(
-        body, parse_mode=enums.ParseMode.MARKDOWN,
+        _module_text(module),
+        parse_mode=enums.ParseMode.MARKDOWN,
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton("‹ BACK TO HELP", callback_data="help_page:0"),
             _owner_button(),
