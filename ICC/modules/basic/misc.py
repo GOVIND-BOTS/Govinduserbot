@@ -37,26 +37,28 @@ alive_buttons = InlineKeyboardMarkup([
     filters.command(["alive", "awake"], ".") & (filters.me | filters.user(SUDO_USER))
 )
 async def alive(client: Client, message: Message):
-    xx = await message.reply_text("⚡️")
-    try:
-       await message.delete()
-    except:
-       pass
-    send = client.send_video if alive_logo.endswith(".mp4") else client.send_photo
     xd = txt.format(uptime=str(datetime.now() - START_TIME).split(".")[0])
+    send = client.send_video if alive_logo.lower().split("?")[0].endswith(".mp4") else client.send_photo
     try:
-        await asyncio.gather(
-            xx.delete(),
-            send(
-                message.chat.id,
-                alive_logo,
-                caption=xd,
-                reply_markup=alive_buttons,
-                reply_to_message_id=ReplyCheck(message),
-            ),
+        await send(
+            message.chat.id,
+            alive_logo,
+            caption=xd,
+            reply_markup=alive_buttons,
+            reply_to_message_id=ReplyCheck(message),
         )
-    except BaseException:
-        await xx.edit(xd, disable_web_page_preview=True, reply_markup=alive_buttons)
+        try:
+            await message.delete()
+        except Exception:
+            pass
+    except Exception:
+        # Keep the fallback message independent of the temporary placeholder.
+        await message.reply_text(
+            xd,
+            disable_web_page_preview=True,
+            reply_markup=alive_buttons,
+            reply_to_message_id=ReplyCheck(message),
+        )
 
 @Client.on_message(filters.command("repo", ".") & filters.me)
 async def repo(bot: Client, message: Message):
