@@ -1671,6 +1671,40 @@ async def fact_fun(client: Client, message: Message):
     await edit_or_reply(message, random.choice(["Octopuses have three hearts. 🐙", "A day on Venus is longer than its year. 🪐", "Bananas are berries botanically. 🍌"]))
 
 
+# Extra harmless animoji commands ported from the supplied Telethon snippet.
+ANIMOJI_FRAMES = {
+    "think": ["🤔🧐🤔🧐🤔🧐", "🧐🤔🧐🤔🧐🤔"],
+    "lmao": ["😂🤣😂🤣😂🤣", "🤣😂🤣😂🤣😂"],
+    "nothappy": ["😁☹️😁☹️😁☹️😁", "☹️😁☹️😁☹️😁☹️"],
+    "clock": list("🕙🕘🕗🕖🕕🕔🕓🕒🕑🕐🕛"),
+    "muah": ["😗😙😚😚😘", "😙😚😚😘😗", "😚😚😘😗😙", "😚😘😗😙😚", "😘😗😙😚😚"],
+    "gym": ["🏃‍♂️  🏋️  🤸", "🤸  🏃‍♂️  🏋️", "🏋️  🤸  🏃‍♂️"],
+    "earth": list("🌏🌍🌎🌎🌍🌏🌍🌎"),
+    "moon": list("🌗🌘🌑🌒🌓🌔🌕🌖"),
+    "tmoon": list("🌗🌘🌑🌒🌓🌔🌕🌖"),
+    "hart": ["🖤", "❤️", "🖤", "❤️"],
+    "anim": ["😁", "😧", "😡", "😢", "😁", "😧", "😡", "😢"],
+    "kiss": ["🤵       👰", "🤵     👰", "🤵  👰", "🤵💋👰"],
+    "fnl": ["😁🏿", "😁🏾", "😁🏽", "😁🏼", "😁"],
+    "gsg": ["🔟", "9️⃣", "8️⃣", "7️⃣", "6️⃣", "5️⃣", "4️⃣", "3️⃣", "2️⃣", "1️⃣", "0️⃣", "🆘"],
+    "theart": ["❤️", "🧡", "💛", "💚", "💙", "💜", "🖤", "💘", "💝"],
+}
+
+@Client.on_message(filters.command(list(ANIMOJI_FRAMES), ".") & filters.me)
+async def animoji_rotations(client: Client, message: Message):
+    command = (message.command[0] if getattr(message, "command", None) else "").lower()
+    frames = ANIMOJI_FRAMES.get(command)
+    if not frames:
+        return
+    # Keep the original rotating-text feel while avoiding excessive edit requests.
+    repeats = 12 if command in {"think", "lmao", "nothappy", "clock", "earth", "moon", "tmoon", "anim", "theart"} else 6
+    delay = 0.35 if command == "nothappy" else (0.5 if command in {"fnl", "gsg"} else 0.2)
+    await _play_icc_animation(message, frames * repeats, delay=delay)
+
+@Client.on_message(filters.command("ccry", ".") & filters.me)
+async def ccry_animation(client: Client, message: Message):
+    await edit_or_reply(message, "(;´༎ຶД༎ຶ)")
+
 add_command_help(
     "animation",
     [
@@ -1771,5 +1805,21 @@ add_command_help(
         ["cat", "Show random cat text art."],
         ["why", "Show a random funny question."],
         ["fact", "Show a random fun fact."],
+        ["think", "Play a thinking-face rotation animation."],
+        ["ccry", "Show a crying face."],
+        ["lmao", "Play a laughing emoji animation."],
+        ["nothappy", "Play a happy and unhappy face animation."],
+        ["clock", "Play a rotating clock animation."],
+        ["muah", "Play a kiss-face animation."],
+        ["gym", "Play a short workout animation."],
+        ["earth", "Play a rotating Earth emoji animation."],
+        ["moon", "Play a moon-phase animation."],
+        ["tmoon", "Play a moon-phase animation."],
+        ["hart", "Play a blinking heart animation."],
+        ["anim", "Play a changing-face animation."],
+        ["kiss", "Play a cute couple animation."],
+        ["fnl", "Play a skin-tone emoji animation."],
+        ["gsg", "Play a countdown animation."],
+        ["theart", "Play a colourful heart animation."],
     ],
 )
