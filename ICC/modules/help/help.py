@@ -60,15 +60,18 @@ def _module_text(module):
 
 
 async def _send_help(message, text, keyboard):
-    # The assistant bot sends the message so Telegram can display inline keyboards.
-    return await app.send_message(
+    assistant = await app.get_me()
+    if not assistant.username:
+        raise RuntimeError('Assistant bot must have a public username.')
+    results = await message._client.get_inline_bot_results(assistant.username, 'helper')
+    if not results.results:
+        raise RuntimeError('Assistant bot returned no Help Menu result.')
+    return await message._client.send_inline_bot_result(
         chat_id=message.chat.id,
-        text=text,
-        parse_mode=enums.ParseMode.MARKDOWN,
-        reply_markup=keyboard,
+        query_id=results.query_id,
+        result_id=results.results[0].id,
         reply_to_message_id=ReplyCheck(message),
     )
-
 
 @Client.on_message(filters.command(["help", "helpme"], ".") & filters.me)
 async def module_help(client: Client, message: Message):
@@ -79,7 +82,7 @@ async def module_help(client: Client, message: Message):
             await message.delete()
         except Exception as exc:
             await message.reply_text(
-                f"Please start the assistant bot first, then try again.\\n\\nError: `{exc}`"
+                f"Enable assistant bot Inline Mode in @BotFather using /setinline, then retry.\\n\\nError: `{exc}`"
             )
         return
 
@@ -94,7 +97,7 @@ async def module_help(client: Client, message: Message):
         ]]))
         await message.delete()
     except Exception as exc:
-        await message.reply_text(f"Assistant bot could not send the menu. Start it first.\\n\\nError: `{exc}`")
+        await message.reply_text(f"Enable assistant bot Inline Mode in @BotFather using /setinline, then retry.\\n\\nError: `{exc}`")
 
 
 @Client.on_message(filters.command(["plugins", "modules"], ".") & filters.me)
