@@ -5,7 +5,7 @@ from sys import version as pyver
 from pyrogram import Client
 from pyrogram import __version__ as pyrover
 from pyrogram.enums import ParseMode
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultPhoto
+from pyrogram.types import (InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultPhoto, InlineQueryResultArticle, InputTextMessageContent)
 
 from ICC import CMD_HELP, StartTime, app
 from config import OWNER_ID, REPO_URL, ALIVE_PIC
@@ -54,13 +54,19 @@ async def alive_function(message, answers):
         "<i>POWERED BY GOVIND-BOTS</i>"
     )
     photo = ALIVE_PIC.strip() if ALIVE_PIC else ""
-    if not photo:
-        raise RuntimeError("Set ALIVE_PIC to the ICC USERBOT logo image URL in your hosting environment.")
-    answers.append(InlineQueryResultPhoto(
-        photo_url=photo, thumb_url=photo, title="ICC USERBOT Alive",
-        description="ICC USERBOT status and uptime", caption=caption,
-        parse_mode=ParseMode.HTML, reply_markup=_alive_keyboard(),
-    ))
+    if photo:
+        answers.append(InlineQueryResultPhoto(
+            photo_url=photo, thumb_url=photo, title="ICC USERBOT Alive",
+            description="ICC USERBOT status and uptime", caption=caption,
+            parse_mode=ParseMode.HTML, reply_markup=_alive_keyboard(),
+        ))
+    else:
+        answers.append(InlineQueryResultArticle(
+            title="ICC USERBOT Alive",
+            description="Set ALIVE_PIC to display the ICC logo",
+            input_message_content=InputTextMessageContent(caption, parse_mode=ParseMode.HTML),
+            reply_markup=_alive_keyboard(),
+        ))
     return answers
 
 
