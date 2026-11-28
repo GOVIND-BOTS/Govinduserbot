@@ -1,6 +1,6 @@
 """Retrieve a Telegram media thumbnail for ICC Userbot.
 
-Feature concept adapted from LEGENDBOT thumbnail plugin (GPL-3.0).
+ICC USERBOT module.
 """
 import os
 import tempfile
