@@ -1291,6 +1291,78 @@ async def santet(client: Client, message: Message):
     await typew.edit("**Target Successfully Stuck Online 🥴**")
 
 
+
+# Short, rate-limit-conscious text animations for ICC Userbot.
+async def _play_icc_animation(message: Message, frames, delay=1.5):
+    for index, frame in enumerate(frames):
+        try:
+            await message.edit(frame)
+        except FloodWait as wait:
+            # Respect Telegram's requested cooldown, then stop this animation
+            # rather than creating a burst of more edits.
+            await asyncio.sleep(wait.value)
+            break
+        except Exception as exc:
+            if "MESSAGE_NOT_MODIFIED" not in str(exc).upper():
+                print(f"Animation edit failed: {type(exc).__name__}: {exc}")
+            break
+        if index != len(frames) - 1:
+            await asyncio.sleep(delay)
+
+
+@Client.on_message(filters.command("bsdk", ".") & filters.me)
+async def bsdk_animation(client: Client, message: Message):
+    frames = [
+        "😎 OYE SUN...",
+        "EK BAAT BATAUN? 😂",
+        "TERA CONFIDENCE TOH 🔥",
+        "PAR LOGIC KAHAN HAI? 🤣",
+        "DIMAAG LOADING... ⏳",
+        "LOADING FAILED! ❌",
+        "KOI BAAT NAHI, TRY AGAIN 😂",
+    ]
+    await _play_icc_animation(message, frames, delay=1.5)
+
+
+@Client.on_message(filters.command("roast", ".") & filters.me)
+async def roast_animation(client: Client, message: Message):
+    frames = [
+        "🎤 ROAST MODE ON",
+        "TERI ENTRY hui...",
+        "SABNE SOCHA STAR AAYA ⭐",
+        "PHIR TUNE BOLA... 😭",
+        "AUR SABNE PHONE SIDE RAKH DIYA 📵",
+        "😂 MIC DROP!",
+    ]
+    await _play_icc_animation(message, frames)
+
+
+@Client.on_message(filters.command("attitude", ".") & filters.me)
+async def attitude_animation(client: Client, message: Message):
+    frames = [
+        "😏 ATTITUDE CHECK",
+        "STYLE: 100%",
+        "SWAG: 100%",
+        "BATTERY: 2% 🔋",
+        "CHARGER DHOONDH RAHA HOON... 😂",
+        "😎 STILL LEGENDARY!",
+    ]
+    await _play_icc_animation(message, frames)
+
+
+@Client.on_message(filters.command("dance", ".") & filters.me)
+async def dance_animation(client: Client, message: Message):
+    frames = [
+        "🕺",
+        "🕺💃",
+        "💃🕺💃",
+        "🎶💃🕺🎶",
+        "🪩 PARTY TIME 🪩",
+        "🥳😂🥳",
+    ]
+    await _play_icc_animation(message, frames, delay=1.2)
+
+
 add_command_help(
     "animation",
     [
@@ -1345,5 +1417,9 @@ add_command_help(
             "charge",
             " Tesla animation charging",
         ],
+        ["bsdk", "Play a short funny roast-style text animation."],
+        ["roast", "Play a light-hearted roast animation."],
+        ["attitude", "Play a funny attitude/status animation."],
+        ["dance", "Play a short dance animation."],
     ],
 )
