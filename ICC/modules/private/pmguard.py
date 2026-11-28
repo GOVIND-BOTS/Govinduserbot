@@ -29,7 +29,13 @@ def get_arg(message):
 
 def pm_keyboard():
     return InlineKeyboardMarkup(
-        [[InlineKeyboardButton("𝐖ᴀɪᴛ, 𝐃ᴏɴ'ᴛ 𝐖ᴀʀɴ 𝐌ᴇ", callback_data="pmguard_wait")]]
+        [
+            [InlineKeyboardButton("𝐖ᴀɪᴛ ғᴏʀ ᴏᴡɴᴇʀ", callback_data="pmguard_wait")],
+            [
+                InlineKeyboardButton("𝐒ᴜᴘᴘᴏʀᴛ", url="https://t.me/GOVIND_MP_USERBOT_SPPORT"),
+                InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇs", url="https://t.me/GOVIND_USERBOT_UPDATE"),
+            ],
+        ]
     )
 
 
