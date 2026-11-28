@@ -3,7 +3,7 @@ from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 
 from ICC.database.pmpermitdb import get_approved_users, pm_guard
 import ICC.database.pmpermitdb as ICC
-from config import PM_LOGGER, ALIVE_PIC
+from config import PM_LOGGER, ALIVE_PIC, OWNER_ID
 
 USERS_AND_WARNS = {}
 WAITING_USERS = set()
@@ -31,6 +31,7 @@ def pm_keyboard():
     return InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("𝐖ᴀɪᴛ ғᴏʀ ᴏᴡɴᴇʀ", callback_data="pmguard_wait")],
+            [InlineKeyboardButton("𝐎ᴡɴᴇʀ", url=f"tg://user?id={OWNER_ID}") if OWNER_ID else InlineKeyboardButton("𝐎ᴡɴᴇʀ", url="https://t.me/GOVIND_USERBOT_UPDATE")],
             [
                 InlineKeyboardButton("𝐒ᴜᴘᴘᴏʀᴛ", url="https://t.me/GOVIND_MP_USERBOT_SPPORT"),
                 InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇs", url="https://t.me/GOVIND_USERBOT_UPDATE"),
@@ -104,14 +105,13 @@ async def pmguard_wait_callback(client, callback_query):
     user_id = callback_query.from_user.id
     WAITING_USERS.add(user_id)
     await callback_query.answer("Your request has been noted.", show_alert=True)
-    if PM_LOGGER:
-        try:
-            await client.send_message(
-                PM_LOGGER,
-                f"𝐖ᴀɪᴛ ʀᴇǫᴜᴇsᴛ ғʀᴏᴍ ᴜsᴇʀ ɪᴅ: {user_id}.",
-            )
-        except Exception:
-            pass
+    request_text = f"𝐏𝐌 𝐆ᴜᴀʀᴅ ᴡᴀɪᴛ ʀᴇǫᴜᴇsᴛ\n\nUser: <a href=\"tg://user?id={user_id}\">{user_id}</a>\nUsername: @{callback_query.from_user.username or \"N/A\"}"
+    for target in (OWNER_ID, PM_LOGGER):
+        if target:
+            try:
+                await client.send_message(target, request_text, disable_web_page_preview=True)
+            except Exception:
+                pass
     await callback_query.message.reply_text(
         "𝐘ᴏᴜʀ ʀᴇǫᴜᴇsᴛ ʜᴀs ʙᴇᴇɴ ɴᴏᴛᴇᴅ.\n\n"
         "𝐏ʟᴇᴀsᴇ ᴡᴀɪᴛ ᴜɴᴛɪʟ ᴛʜᴇ ᴏᴡɴᴇʀ ᴄᴏᴍᴇs ᴏɴʟɪɴᴇ. "
