@@ -1,11 +1,18 @@
 import time
 import traceback
+from html import escape
 from sys import version as pyver
 
 from pyrogram import Client
 from pyrogram import __version__ as pyrover
 from pyrogram.enums import ParseMode
-from pyrogram.types import (InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultPhoto, InlineQueryResultArticle, InputTextMessageContent)
+from pyrogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    InlineQueryResultPhoto,
+    InlineQueryResultArticle,
+    InputTextMessageContent,
+)
 
 from ICC import CMD_HELP, StartTime, app
 from config import OWNER_ID, REPO_URL, ALIVE_PIC
@@ -30,41 +37,57 @@ async def get_readable_time(seconds: int) -> str:
 
 def _alive_keyboard():
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("𝐇ᴇʟᴘ", switch_inline_query_current_chat="helper")],
+        [InlineKeyboardButton("✦ HELP MENU ✦", callback_data="help_open")],
         [
-            InlineKeyboardButton("𝐎ᴡɴᴇʀ", url=f"tg://user?id={OWNER_ID}" if OWNER_ID else "https://t.me/govindofficialmp"),
-            InlineKeyboardButton("𝐑ᴇᴘᴏ", url=REPO_URL or "https://github.com/GOVIND-BOTS/Govinduserbot"),
+            InlineKeyboardButton(
+                "OWNER",
+                url=f"tg://user?id={OWNER_ID}" if OWNER_ID else "https://t.me/govindofficialmp",
+            ),
+            InlineKeyboardButton(
+                "SOURCE CODE",
+                url=REPO_URL or "https://github.com/GOVIND-BOTS/Govinduserbot",
+            ),
         ],
         [
-            InlineKeyboardButton("𝐒ᴜᴘᴘᴏʀᴛ 𝐆ʀᴏᴜᴘ", url="https://t.me/GOVIND_BOTS"),
-            InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇ 𝐂ʜᴀɴɴᴇʟ", url="https://t.me/govindofficialmp"),
+            InlineKeyboardButton("SUPPORT GROUP", url="https://t.me/GOVIND_BOTS"),
+            InlineKeyboardButton("UPDATES", url="https://t.me/govindofficialmp"),
         ],
     ])
 
 
-async def alive_function(message, answers):
+async def alive_function(query, answers):
     uptime = await get_readable_time(time.time() - StartTime)
+    owner = query.from_user
+    owner_name = escape(owner.first_name or "User")
     caption = (
-        "<b>✦ ICC USERBOT ✦</b>\n\n"
-        "<b>❏ Version:</b> <code>2.1</code>\n"
-        f"<b>├• Uptime:</b> <code>{uptime}</code>\n"
-        f"<b>├• Python:</b> <code>{pyver.split()[0]}</code>\n"
-        f"<b>├• Pyrogram:</b> <code>{pyrover}</code>\n"
-        "<b>└• Status:</b> <code>Online</code>\n\n"
+        "<b>✦ ICC USERBOT IS ONLINE ✦</b>\n"
+        "━━━━━━━━━━━━━━━━━━\n"
+        f"<b>✧ Master:</b> <a href=\"tg://user?id={owner.id}\">{owner_name}</a>\n"
+        f"<b>✧ Uptime:</b> <code>{uptime}</code>\n"
+        f"<b>✧ Python:</b> <code>{escape(pyver.split()[0])}</code>\n"
+        f"<b>✧ Pyrogram:</b> <code>{escape(pyrover)}</code>\n"
+        "<b>✧ Status:</b> <code>All systems operational</code>\n"
+        "━━━━━━━━━━━━━━━━━━\n"
         "<i>POWERED BY GOVIND-BOTS</i>"
     )
     photo = ALIVE_PIC.strip() if ALIVE_PIC else ""
     if photo:
         answers.append(InlineQueryResultPhoto(
-            photo_url=photo, thumb_url=photo, title="ICC USERBOT Alive",
-            description="ICC USERBOT status and uptime", caption=caption,
-            parse_mode=ParseMode.HTML, reply_markup=_alive_keyboard(),
+            photo_url=photo,
+            thumb_url=photo,
+            title="ICC USERBOT Alive",
+            description="Live status, owner and uptime",
+            caption=caption,
+            parse_mode=ParseMode.HTML,
+            reply_markup=_alive_keyboard(),
         ))
     else:
         answers.append(InlineQueryResultArticle(
             title="ICC USERBOT Alive",
-            description="Set ALIVE_PIC to display the ICC logo",
-            input_message_content=InputTextMessageContent(caption, parse_mode=ParseMode.HTML),
+            description="Live status, owner and uptime",
+            input_message_content=InputTextMessageContent(
+                caption, parse_mode=ParseMode.HTML
+            ),
             reply_markup=_alive_keyboard(),
         ))
     return answers
@@ -75,26 +98,35 @@ async def help_function(answers):
     from ICC.modules.help.help import _help_keyboard
 
     caption = (
-        f"<b>✦ ICC USERBOT HELP MENU ✦</b>\\n\\n"
-        f"<b>Available Modules:</b> <code>{len(CMD_HELP)}</code>\\n"
-        "Choose a module below.\\n"
+        "<b>✦ ICC USERBOT HELP CENTER ✦</b>\n"
+        "━━━━━━━━━━━━━━━━━━\n"
+        f"<b>Available modules:</b> <code>{len(CMD_HELP)}</code>\n"
+        "<i>Select a module below to view its commands and descriptions.</i>\n"
+        "━━━━━━━━━━━━━━━━━━\n"
         "<i>POWERED BY GOVIND-BOTS</i>"
     )
     keyboard = _help_keyboard(0)
     if photo:
         answers.append(InlineQueryResultPhoto(
-            photo_url=photo, thumb_url=photo, title="ICC USERBOT Help Menu",
-            description="Choose a module to view its commands", caption=caption,
-            parse_mode=ParseMode.HTML, reply_markup=keyboard,
+            photo_url=photo,
+            thumb_url=photo,
+            title="ICC USERBOT Help Menu",
+            description="Browse modules and commands",
+            caption=caption,
+            parse_mode=ParseMode.HTML,
+            reply_markup=keyboard,
         ))
     else:
         answers.append(InlineQueryResultArticle(
             title="ICC USERBOT Help Menu",
-            description="ICC USERBOT help and commands",
-            input_message_content=InputTextMessageContent(caption, parse_mode=ParseMode.HTML),
+            description="Browse modules and commands",
+            input_message_content=InputTextMessageContent(
+                caption, parse_mode=ParseMode.HTML
+            ),
             reply_markup=keyboard,
         ))
     return answers
+
 
 @app.on_inline_query()
 @inline_wrapper
