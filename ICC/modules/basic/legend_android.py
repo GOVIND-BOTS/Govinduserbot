@@ -71,11 +71,13 @@ async def android_device(_, message):
 @Client.on_message(filters.command("codename", ".") & filters.me)
 async def android_codename(_, message):
     args = message.text.split(maxsplit=2)
-    if len(args) < 3 and message.reply_to_message:
-        args = ["", *((message.reply_to_message.text or "").split(maxsplit=1))]
-    if len(args) < 3:
+    query = args[1] if len(args) > 1 else ""
+    if not query and message.reply_to_message:
+        query = message.reply_to_message.text or message.reply_to_message.caption or ""
+    parts = query.split(maxsplit=1)
+    if len(parts) < 2:
         return await message.edit("Usage: `.codename <brand> <device name>`")
-    brand, device = args[1].lower(), args[2].lower()
+    brand, device = parts[0].lower(), parts[1].lower()
     try:
         data = await _fetch_json(f"{BASE}/by_brand.json")
         devices = next((v for k, v in data.items() if k.lower() == brand), None)
