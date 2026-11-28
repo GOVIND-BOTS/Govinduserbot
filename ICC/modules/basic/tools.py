@@ -176,7 +176,7 @@ async def xkcd_comic(client: Client, message: Message):
                 data = await response.json(content_type=None)
                 if response.status != 200:
                     raise RuntimeError("Comic not found.")
-        caption = f"**XKCD #{data.get('num')} — {data.get('safe_title', 'Comic')}**\\n{data.get('alt', '')}"
+        caption = f"**XKCD #{data.get('num')} — {data.get('safe_title', 'Comic')}**\n{data.get('alt', '')}"
         await client.send_photo(message.chat.id, data["img"], caption=caption[:1000], reply_to_message_id=message.id)
         await status.delete()
     except Exception as exc:
@@ -188,5 +188,7 @@ add_command_help("tools", [
     [".ip <IP/domain>", "Look up public IP/hostname network and location information."],
     [".ifsc <code>", "Look up Indian bank branch details from an IFSC code."],
     [".makeqr <text>", "Generate a QR code image from text or a URL."],
-    [".color <HEX>", "Show RGB and decimal values for a hexadecimal color."],\n    [".barcode <text>", "Generate a Code 128 barcode image."],\n    [".xkcd [number]", "Show the latest XKCD comic or a comic by number."]
+    [".color <HEX>", "Show RGB and decimal values for a hexadecimal color."],
+    [".barcode <text>", "Generate a Code 128 barcode image."],
+    [".xkcd [number]", "Show the latest XKCD comic or a comic by number."]
 ])
