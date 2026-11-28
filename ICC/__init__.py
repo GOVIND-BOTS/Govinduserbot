@@ -32,6 +32,7 @@ app = Client(
     bot_token=BOT_TOKEN,
     plugins={"root": "ICC/modules/bot"},
     in_memory=True,
+    sleep_threshold=120,
 )
 
 SESSION_STRINGS = [
@@ -50,5 +51,6 @@ for name, session_string in SESSION_STRINGS:
             api_hash=API_HASH,
             session_string=session_string,
             plugins={"root": "ICC/modules"},
+            sleep_threshold=120,
         ))
         print(f"User client configured: {name}")
