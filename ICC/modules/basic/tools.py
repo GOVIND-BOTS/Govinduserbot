@@ -133,10 +133,60 @@ async def color_info(client: Client, message: Message):
     )
 
 
+
+@Client.on_message(filters.command("barcode", ".") & filters.me)
+async def make_barcode(client: Client, message: Message):
+    value = message.text.split(maxsplit=1)[1].strip() if len(message.command) > 1 else ""
+    if not value:
+        return await message.edit_text("Usage: `.barcode <text>`")
+    if len(value) > 150:
+        return await message.edit_text("Barcode text is too long (maximum 150 characters).")
+    status = await message.edit_text("Generating Code 128 barcode…")
+    photo = None
+    try:
+        timeout = aiohttp.ClientTimeout(total=20)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            async with session.get("https://bwipjs-api.metafloor.com/", params={"bcid": "code128", "text": value, "scale": 3, "includetext": True}) as response:
+                if response.status != 200:
+                    raise RuntimeError(f"Barcode service HTTP {response.status}")
+                raw = await response.read()
+        photo = io.BytesIO(raw)
+        photo.name = "icc_barcode.png"
+        await client.send_photo(message.chat.id, photo, caption="Code 128 barcode generated.", reply_to_message_id=message.id)
+        await status.delete()
+    except Exception as exc:
+        await status.edit_text(f"**Barcode error:** `{str(exc)[:300]}`")
+    finally:
+        if photo:
+            photo.close()
+
+
+@Client.on_message(filters.command("xkcd", ".") & filters.me)
+async def xkcd_comic(client: Client, message: Message):
+    query = " ".join(message.command[1:]).strip()
+    status = await message.edit_text("Fetching XKCD comic…")
+    try:
+        timeout = aiohttp.ClientTimeout(total=20)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            if query.isdigit():
+                endpoint = f"https://xkcd.com/{int(query)}/info.0.json"
+            else:
+                endpoint = "https://xkcd.com/info.0.json"
+            async with session.get(endpoint) as response:
+                data = await response.json(content_type=None)
+                if response.status != 200:
+                    raise RuntimeError("Comic not found.")
+        caption = f"**XKCD #{data.get('num')} — {data.get('safe_title', 'Comic')}**\\n{data.get('alt', '')}"
+        await client.send_photo(message.chat.id, data["img"], caption=caption[:1000], reply_to_message_id=message.id)
+        await status.delete()
+    except Exception as exc:
+        await status.edit_text(f"**XKCD error:** `{str(exc)[:300]}`")
+
+
 add_command_help("tools", [
     [".cur <amount> <FROM> <TO>", "Convert currency using the latest available reference rate."],
     [".ip <IP/domain>", "Look up public IP/hostname network and location information."],
     [".ifsc <code>", "Look up Indian bank branch details from an IFSC code."],
     [".makeqr <text>", "Generate a QR code image from text or a URL."],
-    [".color <HEX>", "Show RGB and decimal values for a hexadecimal color."],
+    [".color <HEX>", "Show RGB and decimal values for a hexadecimal color."],\n    [".barcode <text>", "Generate a Code 128 barcode image."],\n    [".xkcd [number]", "Show the latest XKCD comic or a comic by number."]
 ])
