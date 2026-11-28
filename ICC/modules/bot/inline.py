@@ -72,23 +72,29 @@ async def alive_function(message, answers):
 
 async def help_function(answers):
     photo = ALIVE_PIC.strip() if ALIVE_PIC else ""
-    if not photo:
-        raise RuntimeError("Set ALIVE_PIC to the ICC USERBOT logo image URL in your hosting environment.")
     from ICC.modules.help.help import _help_keyboard
 
-    answers.append(InlineQueryResultPhoto(
-        photo_url=photo, thumb_url=photo, title="ICC USERBOT Help Menu",
-        description="Choose a module to view its commands",
-        caption=(
-            f"<b>✦ ICC USERBOT HELP MENU ✦</b>\n\n"
-            f"<b>Available Modules:</b> <code>{len(CMD_HELP)}</code>\n"
-            "Choose a module below.\n"
-            "<i>POWERED BY GOVIND-BOTS</i>"
-        ),
-        parse_mode=ParseMode.HTML, reply_markup=_help_keyboard(0),
-    ))
+    caption = (
+        f"<b>✦ ICC USERBOT HELP MENU ✦</b>\\n\\n"
+        f"<b>Available Modules:</b> <code>{len(CMD_HELP)}</code>\\n"
+        "Choose a module below.\\n"
+        "<i>POWERED BY GOVIND-BOTS</i>"
+    )
+    keyboard = _help_keyboard(0)
+    if photo:
+        answers.append(InlineQueryResultPhoto(
+            photo_url=photo, thumb_url=photo, title="ICC USERBOT Help Menu",
+            description="Choose a module to view its commands", caption=caption,
+            parse_mode=ParseMode.HTML, reply_markup=keyboard,
+        ))
+    else:
+        answers.append(InlineQueryResultArticle(
+            title="ICC USERBOT Help Menu",
+            description="ICC USERBOT help and commands",
+            input_message_content=InputTextMessageContent(caption, parse_mode=ParseMode.HTML),
+            reply_markup=keyboard,
+        ))
     return answers
-
 
 @app.on_inline_query()
 @inline_wrapper
