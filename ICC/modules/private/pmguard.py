@@ -105,7 +105,11 @@ async def pmguard_wait_callback(client, callback_query):
     user_id = callback_query.from_user.id
     WAITING_USERS.add(user_id)
     await callback_query.answer("Your request has been noted.", show_alert=True)
-    request_text = f"𝐏𝐌 𝐆ᴜᴀʀᴅ ᴡᴀɪᴛ ʀᴇǫᴜᴇsᴛ\n\nUser: <a href=\"tg://user?id={user_id}\">{user_id}</a>\nUsername: @{callback_query.from_user.username or \"N/A\"}"
+    username = callback_query.from_user.username or "N/A"
+    request_text = (
+        f"𝐏𝐌 𝐆ᴜᴀʀᴅ ᴡᴀɪᴛ ʀᴇǫᴜᴇsᴛ\n\n"
+        f"User ID: {user_id}\nUsername: @{username}"
+    )
     for target in (OWNER_ID, PM_LOGGER):
         if target:
             try:
