@@ -70,7 +70,7 @@ async def understand(task):
         ai = await gemini_client()
         result = await ai.aio.models.generate_content(
             model=INTENT_MODEL,
-            contents="Restate this task in 1-2 sentences. Do not perform it. Match the user's language:\\n\\n" + task,
+            contents="Restate this task in 1-2 sentences. Do not perform it. Match the user's language:\n\n" + task,
             config=types.GenerateContentConfig(temperature=0.2, max_output_tokens=150),
         )
         return (result.text or task).strip()
@@ -147,8 +147,8 @@ async def run_agent(client, chat_id, task):
         if not calls:
             answer = response.text or "No response from Gemini."
             if queued:
-                answer += "\\n\\nQueued, not executed: " + ", ".join(queued)
-                answer += "\\nReview with .pending, then use .confirm ID or .cancel ID."
+                answer += "\n\nQueued, not executed: " + ", ".join(queued)
+                answer += "\nReview with .pending, then use .confirm ID or .cancel ID."
             return answer
 
         history.append(candidate.content)
@@ -179,11 +179,11 @@ async def run_agent(client, chat_id, task):
 async def agent_handler(client, message):
     task = " ".join(message.command[1:]).strip()
     if not task:
-        return await message.edit_text("ICC AI Agent\\nUsage: .agent <task>\\nExample: .agent summarize the recent messages in this chat")
+        return await message.edit_text("ICC AI Agent\nUsage: .agent <task>\nExample: .agent summarize the recent messages in this chat")
     status = await message.edit_text("Understanding your task...")
     summary = await understand(task)
     INTENTS[message.chat.id] = {"task": task, "prompt_id": status.id, "expires": datetime.now() + timedelta(seconds=TTL)}
-    await status.edit_text("I understood:\\n" + summary + "\\n\\nReply haan/nahi to this message to continue.")
+    await status.edit_text("I understood:\n" + summary + "\n\nReply haan/nahi to this message to continue.")
 
 
 @Client.on_message(filters.text & filters.me, group=20)
@@ -226,7 +226,7 @@ async def confirm_handler(client, message):
     PENDING.pop(action_id, None)
     status = await message.edit_text("Executing: " + item["description"])
     result = await execute_action(client, item["name"], item["args"])
-    await status.edit_text(item["description"] + "\\n\\n" + result)
+    await status.edit_text(item["description"] + "\n\n" + result)
 
 
 @Client.on_message(filters.command("cancel", ".") & filters.me)
@@ -251,7 +251,7 @@ async def pending_handler(client, message):
     if not items:
         return await message.edit_text("No pending actions in this chat.")
     lines = ["{} — {} ({}s left)".format(key, value["description"], max(0, int((value["expires"] - now).total_seconds()))) for key, value in items]
-    await message.edit_text("Pending confirmations:\\n\\n" + "\\n".join(lines))
+    await message.edit_text("Pending confirmations:\n\n" + "\n".join(lines))
 
 
 add_command_help("agent", [
