@@ -35,7 +35,8 @@ SUDO_USERS = _user_ids(os.getenv("SUDO_USERS", ""))
 OWNER_ID = _int_env("OWNER_ID", 0)
 MONGO_URL = os.getenv("MONGO_URL") or None
 BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
-ALIVE_PIC = os.getenv("ALIVE_PIC", "https://te.legra.ph/file/80eda2848fdeb52b191ad.jpg").strip()
+# Set ALIVE_PIC to the public URL of the ICC USERBOT logo. Do not fall back to the old Zaid image.
+ALIVE_PIC = os.getenv("ALIVE_PIC", "").strip()
 ALIVE_TEXT = os.getenv("ALIVE_TEXT")
 PM_LOGGER = os.getenv("PM_LOGGER")
 LOG_GROUP = os.getenv("LOG_GROUP")
