@@ -1,6 +1,6 @@
 """Safe reply-based ZIP tools for ICC Userbot.
 
-Feature concept adapted from LEGENDBOT archive plugin (GPL-3.0).
+ICC USERBOT module.
 """
 import asyncio
 import os
