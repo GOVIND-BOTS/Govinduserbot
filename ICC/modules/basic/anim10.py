@@ -111,6 +111,30 @@ async def big_oof(_, message):
     await _play_anim(message, frames, 0.35)
 
 
+
+@Client.on_message(filters.command("f", ".") & filters.me)
+async def f_text(_, message):
+    text = message.text.partition(" ")[2].strip()
+    if not text:
+        await message.edit("Usage: `.f <text>`")
+        return
+    pattern = [
+        text * 8,
+        text * 8,
+        text * 2,
+        text * 2,
+        text * 2,
+        text * 6,
+        text * 6,
+        text * 2,
+        text * 2,
+        text * 2,
+        text * 2,
+        text * 2,
+    ]
+    await message.edit("\\n".join(pattern))
+
+
 add_command_help("anim10", [
     [".indflag", "Show the Indian flag animation."],
     [".yo", "Play the yo-to-yoooo animation."],
@@ -120,4 +144,5 @@ add_command_help("anim10", [
     [".hypno", "Play the non-explicit hypnosis animation."],
     [".candy", "Rotate a row of candy emojis."],
     [".bigoof", "Play the Big Oof text animation."],
+    [".f <text>", "Print the supplied text in an F-style pattern."],
 ])
