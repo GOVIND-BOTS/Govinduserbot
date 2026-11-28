@@ -484,63 +484,18 @@ async def ngefuck(client: Client, message: Message):
 
 @Client.on_message(filters.command("hack", ".") & filters.me)
 async def hak(client: Client, message: Message):
-    await message.edit_text("Looking for WhatsApp databases in targeted person...")
-    await asyncio.sleep(2)
-    await message.edit_text(
-        " User online: True\nTelegram access: True\nRead Storage: True "
-    )
-    await asyncio.sleep(2)
-    await message.edit_text(
-        "Hacking... 0%\n[░░░░░░░░░░░░░░░░░░░░]\n`Looking for WhatsApp...`\nETA: 0m, 20s"
-    )
-    await asyncio.sleep(2)
-    await message.edit_text(
-        "Hacking... 11.07%\n[██░░░░░░░░░░░░░░░░░░]\n`Looking for WhatsApp...`\nETA: 0m, 18s"
-    )
-    await asyncio.sleep(2)
-    await message.edit_text(
-        "Hacking... 20.63%\n[███░░░░░░░░░░░░░░░░░]\n`Found folder C:/WhatsApp`\nETA: 0m, 16s"
-    )
-    await asyncio.sleep(2)
-    await message.edit_text(
-        "Hacking... 34.42%\n[█████░░░░░░░░░░░░░░░]\n`Found folder C:/WhatsApp`\nETA: 0m, 14s"
-    )
-    await asyncio.sleep(2)
-    await message.edit_text(
-        "Hacking... 42.17%\n[███████░░░░░░░░░░░░░]\n`Searching for databases`\nETA: 0m, 12s"
-    )
-    await asyncio.sleep(2)
-    await message.edit_text(
-        "Hacking... 55.30%\n[█████████░░░░░░░░░░░]\n`Found msgstore.db.crypt12`\nETA: 0m, 10s"
-    )
-    await asyncio.sleep(2)
-    await message.edit_text(
-        "Hacking... 64.86%\n[███████████░░░░░░░░░]\n`Found msgstore.db.crypt12`\nETA: 0m, 08s"
-    )
-    await asyncio.sleep(2)
-    await message.edit_text(
-        "Hacking... 74.02%\n[█████████████░░░░░░░]\n`Trying to Decrypt...`\nETA: 0m, 06s"
-    )
-    await asyncio.sleep(2)
-    await message.edit_text(
-        "Hacking... 86.21%\n[███████████████░░░░░]\n`Trying to Decrypt...`\nETA: 0m, 04s"
-    )
-    await asyncio.sleep(2)
-    await message.edit_text(
-        "Hacking... 93.50%\n[█████████████████░░░]\n`Decryption successful!`\nETA: 0m, 02s"
-    )
-    await asyncio.sleep(2)
-    await message.edit_text(
-        "Hacking... 100%\n[████████████████████]\n`Scanning file...`\nETA: 0m, 00s"
-    )
-    await asyncio.sleep(2)
-    await message.edit_text("Hacking complete!\nUploading file...")
-    await asyncio.sleep(2)
-    await message.edit_text(
-        "Targeted Account Hacked... made by GOVIND!\n\n ✅ File has been successfully uploaded to my server.\nWhatsApp Database:\n`./DOWNLOADS/msgstore.db.crypt12`"
-    )
-
-
+    # Clearly fictional terminal-style animation; it does not access any account or files.
+    frames = [
+        "🖥️ ICC CYBER SIMULATOR",
+        "Initializing pretend terminal...",
+        "Connecting to imaginary server... 🌐",
+        "Scanning pixels... 25%\n[█████░░░░░░░░░░░]",
+        "Decrypting virtual jokes... 60%\n[████████████░░░]",
+        "Firewall says: NICE TRY 😂",
+        "Access denied to reality! 🚫",
+        "✅ SIMULATION COMPLETE\nNo account or device was accessed.\nJust for fun by GOVIND 😎",
+    ]
+    await _play_icc_animation(message, frames, delay=1.2)
 @Client.on_message(filters.command(["kontol", "kntl"], ".") & filters.me)
 async def kontol(client: Client, message: Message):
     emoji = get_text(message)
