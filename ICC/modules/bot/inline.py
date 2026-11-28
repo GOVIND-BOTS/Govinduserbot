@@ -5,13 +5,9 @@ from sys import version as pyver
 from pyrogram import Client
 from pyrogram import __version__ as pyrover
 from pyrogram.enums import ParseMode
-from pyrogram.types import (
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    InlineQueryResultPhoto,
-)
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultPhoto
 
-from ICC import CMD_HELP, StartTime
+from ICC import CMD_HELP, StartTime, app
 from config import OWNER_ID, REPO_URL, ALIVE_PIC
 from ICC.helper.inline import inline_wrapper
 
@@ -60,17 +56,11 @@ async def alive_function(message, answers):
     photo = ALIVE_PIC.strip() if ALIVE_PIC else ""
     if not photo:
         raise RuntimeError("Set ALIVE_PIC to the ICC USERBOT logo image URL in your hosting environment.")
-    answers.append(
-        InlineQueryResultPhoto(
-            photo_url=photo,
-            thumb_url=photo,
-            title="ICC USERBOT Alive",
-            description="ICC USERBOT status and uptime",
-            caption=caption,
-            parse_mode=ParseMode.HTML,
-            reply_markup=_alive_keyboard(),
-        )
-    )
+    answers.append(InlineQueryResultPhoto(
+        photo_url=photo, thumb_url=photo, title="ICC USERBOT Alive",
+        description="ICC USERBOT status and uptime", caption=caption,
+        parse_mode=ParseMode.HTML, reply_markup=_alive_keyboard(),
+    ))
     return answers
 
 
@@ -80,22 +70,17 @@ async def help_function(answers):
         raise RuntimeError("Set ALIVE_PIC to the ICC USERBOT logo image URL in your hosting environment.")
     from ICC.modules.help.help import _help_keyboard
 
-    answers.append(
-        InlineQueryResultPhoto(
-            photo_url=photo,
-            thumb_url=photo,
-            title="ICC USERBOT Help Menu",
-            description="Choose a module to view its commands",
-            caption=(
-                f"<b>✦ ICC USERBOT HELP MENU ✦</b>\\n\\n"
-                f"<b>Available Modules:</b> <code>{len(CMD_HELP)}</code>\\n"
-                "Choose a module below.\\n"
-                "<i>POWERED BY GOVIND-BOTS</i>"
-            ),
-            parse_mode=ParseMode.HTML,
-            reply_markup=_help_keyboard(0),
-        )
-    )
+    answers.append(InlineQueryResultPhoto(
+        photo_url=photo, thumb_url=photo, title="ICC USERBOT Help Menu",
+        description="Choose a module to view its commands",
+        caption=(
+            f"<b>✦ ICC USERBOT HELP MENU ✦</b>\\n\\n"
+            f"<b>Available Modules:</b> <code>{len(CMD_HELP)}</code>\\n"
+            "Choose a module below.\\n"
+            "<i>POWERED BY GOVIND-BOTS</i>"
+        ),
+        parse_mode=ParseMode.HTML, reply_markup=_help_keyboard(0),
+    ))
     return answers
 
 
