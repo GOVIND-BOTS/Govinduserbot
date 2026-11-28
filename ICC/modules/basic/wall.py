@@ -1,6 +1,6 @@
 """Search safe wallpapers using the Wallhaven public API.
 
-Feature concept adapted from LEGENDBOT wallpaper plugin (GPL-3.0).
+ICC USERBOT module.
 """
 import aiohttp
 from pyrogram import Client, filters
