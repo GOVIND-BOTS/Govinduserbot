@@ -37,35 +37,27 @@ alive_buttons = InlineKeyboardMarkup([
     filters.command(["alive", "awake"], ".") & (filters.me | filters.user(SUDO_USER))
 )
 async def alive(client: Client, message: Message):
-    xd = txt.format(uptime=str(datetime.now() - START_TIME).split(".")[0])
     try:
-        if alive_logo.lower().split("?")[0].endswith(".mp4"):
-            await app.send_video(
-                message.chat.id,
-                alive_logo,
-                caption=xd,
-                reply_markup=alive_buttons,
-                reply_to_message_id=ReplyCheck(message),
-            )
-        else:
-            await app.send_photo(
-                message.chat.id,
-                alive_logo,
-                caption=xd,
-                reply_markup=alive_buttons,
-                reply_to_message_id=ReplyCheck(message),
-            )
+        assistant = await app.get_me()
+        if not assistant.username:
+            raise RuntimeError("Assistant bot must have a public username.")
+        results = await client.get_inline_bot_results(assistant.username, "alive")
+        if not results.results:
+            raise RuntimeError("Assistant bot returned no Alive result.")
+        await client.send_inline_bot_result(
+            chat_id=message.chat.id,
+            query_id=results.query_id,
+            result_id=results.results[0].id,
+            reply_to_message_id=ReplyCheck(message),
+        )
         try:
             await message.delete()
         except Exception:
             pass
     except Exception as exc:
-        await message.reply_text(
-            f"{xd}\\n\\nAssistant bot could not send the alive card. "
-            f"Start the assistant bot first. Error: `{exc}`",
-            disable_web_page_preview=True,
-        )
-
+        error = str(exc)
+        hint = "Enable Inline Mode for the assistant bot using @BotFather → /setinline." if "BOT_INLINE_DISABLED" in error or "inline" in error.lower() else "Check assistant bot username and inline handler."
+        await message.reply_text(f"**Unable to send Alive card.**\n{hint}\n\n`{error}`", disable_web_page_preview=True)
 @Client.on_message(filters.command("repo", ".") & filters.me)
 async def repo(bot: Client, message: Message):
     await message.edit("⚡")
