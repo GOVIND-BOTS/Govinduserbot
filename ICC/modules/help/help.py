@@ -102,11 +102,17 @@ async def module_help(client: Client, message: Message):
     if not module:
         return await message.reply_text(f"`{help_arg}` **is not a valid module name.**")
     try:
-        await _send_help(client, message)
+        sent = await _send_help(client, message)
+        detail_keyboard = InlineKeyboardMarkup([[
+            InlineKeyboardButton("‹ BACK TO HELP", callback_data="help_open"),
+            _owner_button(),
+            InlineKeyboardButton("CLOSE", callback_data="help_close"),
+        ]])
+        await _edit_help_message(sent, _module_text(module), detail_keyboard)
         await message.delete()
     except Exception as exc:
         await message.reply_text(
-            f"Enable assistant bot Inline Mode in @BotFather using /setinline, then retry.\n\nError: `{exc}`"
+            f"Enable assistant bot Inline Mode in @BotFather using /setinline, then retry.\\n\\nError: `{exc}`"
         )
 
 
