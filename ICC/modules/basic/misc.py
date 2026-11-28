@@ -16,7 +16,7 @@ alive_logo = ALIVE_PIC or "https://telegra.ph/file/cc0890d0876bc18c19e05.jpg"
 txt = (
     "✦ **𝐈𝐂𝐂 𝐔sᴇʀʙᴏᴛ** ✦\n\n"
     "❏ **𝐕ᴇʀsɪᴏɴ:** `2.1`\n"
-    f"├• **𝐔ᴘᴛɪᴍᴇ:** `{str(datetime.now() - START_TIME).split('.')[0]}`\n"
+    "├• **𝐔ᴘᴛɪᴍᴇ:** `{uptime}`\n"
     f"├• **𝐏ʏᴛʜᴏɴ:** `{python_version()}`\n"
     f"├• **𝐏ʏʀᴏɢʀᴀᴍ:** `{__version__}`\n"
     "└• **𝐒ᴛᴀᴛᴜs:** `Online`"
@@ -43,7 +43,7 @@ async def alive(client: Client, message: Message):
     except:
        pass
     send = client.send_video if alive_logo.endswith(".mp4") else client.send_photo
-    xd = (f"{txt}")
+    xd = txt.format(uptime=str(datetime.now() - START_TIME).split(".")[0])
     try:
         await asyncio.gather(
             xx.delete(),
