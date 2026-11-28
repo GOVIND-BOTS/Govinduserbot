@@ -9,7 +9,7 @@ from ICC.helper.PyroHelpers import ReplyCheck
 def _owner_button():
     return InlineKeyboardButton(
         "𝐎ᴡɴᴇʀ",
-        url=f"tg://user?id={OWNER_ID}" if OWNER_ID else "https://t.me/GOVIND_USERBOT_UPDATE",
+        url=f"tg://user?id={OWNER_ID}" if OWNER_ID else "https://t.me/govindofficialmp",
     )
 
 
@@ -37,8 +37,8 @@ def _help_keyboard(page=0):
     rows.append(nav)
     rows.append([
         _owner_button(),
-        InlineKeyboardButton("𝐒ᴜᴘᴘᴏʀᴛ", url="https://t.me/GOVIND_MP_USERBOT_SPPORT"),
-        InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇs", url="https://t.me/GOVIND_USERBOT_UPDATE"),
+        InlineKeyboardButton("𝐒ᴜᴘᴘᴏʀᴛ", url="https://t.me/GOVIND_BOTS"),
+        InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇs", url="https://t.me/govindofficialmp"),
     ])
     rows.append([InlineKeyboardButton("𝐂ʟᴏsᴇ", callback_data="help_close")])
     return InlineKeyboardMarkup(rows)
