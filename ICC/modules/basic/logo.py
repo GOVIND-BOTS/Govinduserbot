@@ -1,6 +1,6 @@
 """Generate a simple text logo for ICC Userbot.
 
-Feature concept adapted from LEGENDBOT logo plugin (GPL-3.0).
+ICC USERBOT module.
 """
 import asyncio
 import os
