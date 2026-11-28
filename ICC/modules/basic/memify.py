@@ -24,7 +24,7 @@ def draw_meme(source: str, top: str, bottom: str):
             lines.extend(textwrap.wrap(paragraph, max_chars) or [""])
         line_height = 22
         block_height = line_height * len(lines)
-        y = max(4, y - block_height // 2) if anchor == "bottom" else y
+        y = max(4, y - block_height - 12) if anchor == "bottom" else y
         for line in lines:
             box = draw.textbbox((0, 0), line, font=font, stroke_width=2)
             x = max(4, (width - (box[2] - box[0])) // 2)
