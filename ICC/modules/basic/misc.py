@@ -5,7 +5,7 @@ from platform import python_version
 from pyrogram import __version__, filters, Client
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 from config import ALIVE_PIC, ALIVE_TEXT, OWNER_ID, REPO_URL
-from ICC import START_TIME
+from ICC import START_TIME, app
 from ICC import SUDO_USER
 from ICC.helper.PyroHelpers import ReplyCheck
 from ICC.modules.help import add_command_help
@@ -38,26 +38,32 @@ alive_buttons = InlineKeyboardMarkup([
 )
 async def alive(client: Client, message: Message):
     xd = txt.format(uptime=str(datetime.now() - START_TIME).split(".")[0])
-    send = client.send_video if alive_logo.lower().split("?")[0].endswith(".mp4") else client.send_photo
     try:
-        await send(
-            message.chat.id,
-            alive_logo,
-            caption=xd,
-            reply_markup=alive_buttons,
-            reply_to_message_id=ReplyCheck(message),
-        )
+        if alive_logo.lower().split("?")[0].endswith(".mp4"):
+            await app.send_video(
+                message.chat.id,
+                alive_logo,
+                caption=xd,
+                reply_markup=alive_buttons,
+                reply_to_message_id=ReplyCheck(message),
+            )
+        else:
+            await app.send_photo(
+                message.chat.id,
+                alive_logo,
+                caption=xd,
+                reply_markup=alive_buttons,
+                reply_to_message_id=ReplyCheck(message),
+            )
         try:
             await message.delete()
         except Exception:
             pass
-    except Exception:
-        # Keep the fallback message independent of the temporary placeholder.
+    except Exception as exc:
         await message.reply_text(
-            xd,
+            f"{xd}\\n\\nAssistant bot could not send the alive card. "
+            f"Start the assistant bot first. Error: `{exc}`",
             disable_web_page_preview=True,
-            reply_markup=alive_buttons,
-            reply_to_message_id=ReplyCheck(message),
         )
 
 @Client.on_message(filters.command("repo", ".") & filters.me)
