@@ -34,9 +34,9 @@ def _new_help_keyboard(page=0):
 
 def _new_help_caption():
     return (
-        "<b>✦ ICC USERBOT — HELP MENU ✦</b>\\n\\n"
-        f"<b>Available Modules:</b> <code>{len(CMD_HELP)}</code>\\n"
-        "Select a module below to view its commands.\\n"
+        "<b>✦ ICC USERBOT — HELP MENU ✦</b>\n\n"
+        f"<b>Available Modules:</b> <code>{len(CMD_HELP)}</code>\n"
+        "Select a module below to view its commands.\n"
         "<i>POWERED BY GOVIND-BOTS</i>"
     )
 
@@ -46,7 +46,7 @@ def _new_module_caption(module):
     for command, description in CMD_HELP.get(module, {}).items():
         lines.append(f"• <code>.{command}</code> — {description}")
     lines.extend(["", "<i>POWERED BY GOVIND-BOTS</i>"])
-    return "\\n".join(lines)
+    return "\n".join(lines)
 
 
 async def _edit_help(callback_query, caption, keyboard):
@@ -148,10 +148,10 @@ async def on_plug_in_cb(_, callback_query: CallbackQuery):
         return await callback_query.answer("Module not found.", show_alert=True)
     lines = [f"──「 **Help For {modul_name.upper()}** 」──", ""]
     for command, description in commands.items():
-        lines.append(f"• **Command:** `.{command}`\\n• **Function:** `{description}`")
+        lines.append(f"• **Command:** `.{command}`\n• **Function:** `{description}`")
     await app.edit_inline_caption(
         callback_query.inline_message_id,
-        "\\n\\n".join(lines),
+        "\n\n".join(lines),
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton(text="Return", callback_data="reopen"),
         ]]),
